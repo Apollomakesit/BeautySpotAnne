@@ -1,0 +1,225 @@
+{
+  "deployment": {
+    "project_id": "ceac9d51-c1b0-413f-b112-5caa1e02dae0",
+    "project_url": "https://railway.app/project/ceac9d51-c1b0-413f-b112-5caa1e02dae0",
+    "github_repo": "Apollomakesit/BeautySpotAnne",
+    "github_repo_url": "https://github.com/Apollomakesit/BeautySpotAnne",
+    "user_email": "ionutstefan2014@gmail.com",
+    "status": "IN_PROGRESS"
+  },
+  "services": {
+    "backend": {
+      "name": "backend",
+      "root_directory": "backend",
+      "builder": "NIXPACKS",
+      "start_command": "uvicorn app.main:app --host 0.0.0.0 --port $PORT",
+      "restart_policy": "ON_FAILURE",
+      "restart_policy_max_retries": 10,
+      "status": "CONFIGURED",
+      "environment_variables": {
+        "STRIPE_SECRET_KEY": {
+          "value": "sk_test_placeholder",
+          "description": "Stripe test secret key - user will update",
+          "status": "PENDING"
+        },
+        "STRIPE_WEBHOOK_SECRET": {
+          "value": "whsec_placeholder",
+          "description": "Stripe webhook secret - user will update",
+          "status": "PENDING"
+        },
+        "FRONTEND_URL": {
+          "value": "http://localhost:3000",
+          "description": "Frontend URL for CORS - will update after frontend deployment",
+          "status": "PENDING"
+        },
+        "CORS_ORIGINS": {
+          "value": "http://localhost:3000",
+          "description": "Comma-separated list of allowed CORS origins",
+          "status": "PENDING"
+        }
+      }
+    },
+    "frontend": {
+      "name": "frontend",
+      "root_directory": "frontend",
+      "builder": "NIXPACKS",
+      "start_command": "next start",
+      "restart_policy": "ON_FAILURE",
+      "restart_policy_max_retries": 5,
+      "status": "CONFIGURED",
+      "environment_variables": {
+        "NEXT_PUBLIC_API_URL": {
+          "value": "http://localhost:8000",
+          "description": "Backend API URL - will update after backend deployment",
+          "status": "PENDING"
+        },
+        "NEXTAUTH_URL": {
+          "value": "http://localhost:3000",
+          "description": "NextAuth URL - update with production URL",
+          "status": "PENDING"
+        },
+        "NEXTAUTH_SECRET": {
+          "value": "please-change-me-with-openssl-rand-base64-32",
+          "description": "Generated via: openssl rand -base64 32",
+          "status": "PENDING",
+          "command_to_generate": "openssl rand -base64 32"
+        },
+        "GOOGLE_CLIENT_ID": {
+          "value": "your_google_client_id.apps.googleusercontent.com",
+          "description": "From Google OAuth configuration",
+          "status": "PENDING"
+        },
+        "GOOGLE_CLIENT_SECRET": {
+          "value": "your_google_client_secret",
+          "description": "From Google OAuth configuration",
+          "status": "PENDING"
+        },
+        "FACEBOOK_CLIENT_ID": {
+          "value": "your_facebook_app_id",
+          "description": "From Facebook App configuration",
+          "status": "PENDING"
+        },
+        "FACEBOOK_CLIENT_SECRET": {
+          "value": "your_facebook_app_secret",
+          "description": "From Facebook App configuration",
+          "status": "PENDING"
+        }
+      }
+    },
+    "database": {
+      "name": "PostgreSQL",
+      "type": "postgres",
+      "status": "NOT_ADDED",
+      "instructions": "Add via Railway Dashboard: Project → Add Service → Database → PostgreSQL"
+    }
+  },
+  "setup_checklist": [
+    {
+      "step": 1,
+      "title": "Add PostgreSQL Database",
+      "status": "PENDING",
+      "method": "Railroad Dashboard",
+      "instructions": [
+        "Go to: https://railway.app/project/ceac9d51-c1b0-413f-b112-5caa1e02dae0",
+        "Click 'Add Service' or '+' button",
+        "Select 'Database' → 'PostgreSQL'",
+        "Confirm creation",
+        "Wait for provisioning (2-3 minutes)"
+      ],
+      "cli_alternative": [
+        "cd /workspaces/BeautySpotAnne",
+        "railway service add postgres"
+      ]
+    },
+    {
+      "step": 2,
+      "title": "Configure Backend Service Environment Variables",
+      "status": "PENDING",
+      "method": "Railway Dashboard or CLI",
+      "variables": {
+        "STRIPE_SECRET_KEY": "sk_test_placeholder",
+        "STRIPE_WEBHOOK_SECRET": "whsec_placeholder",
+        "FRONTEND_URL": "http://localhost:3000",
+        "CORS_ORIGINS": "http://localhost:3000"
+      },
+      "instructions": [
+        "Dashboard: Go to Backend service → Variables tab",
+        "Click 'Add Variable' for each key-value pair",
+        "Update Frontend URLs after deployment"
+      ],
+      "cli_commands": [
+        "railway service select backend",
+        "railway variable set STRIPE_SECRET_KEY=sk_test_placeholder",
+        "railway variable set STRIPE_WEBHOOK_SECRET=whsec_placeholder",
+        "railway variable set FRONTEND_URL=http://localhost:3000",
+        "railway variable set CORS_ORIGINS=http://localhost:3000"
+      ]
+    },
+    {
+      "step": 3,
+      "title": "Configure Frontend Service Environment Variables",
+      "status": "PENDING",
+      "method": "Railway Dashboard or CLI",
+      "variables": {
+        "NEXT_PUBLIC_API_URL": "http://localhost:8000",
+        "NEXTAUTH_URL": "http://localhost:3000",
+        "NEXTAUTH_SECRET": "please-change-me-with-openssl-rand-base64-32",
+        "GOOGLE_CLIENT_ID": "your_google_client_id.apps.googleusercontent.com",
+        "GOOGLE_CLIENT_SECRET": "your_google_client_secret",
+        "FACEBOOK_CLIENT_ID": "your_facebook_app_id",
+        "FACEBOOK_CLIENT_SECRET": "your_facebook_app_secret"
+      },
+      "instructions": [
+        "Dashboard: Go to Frontend service → Variables tab",
+        "Click 'Add Variable' for each key-value pair",
+        "Generate NEXTAUTH_SECRET: openssl rand -base64 32"
+      ],
+      "cli_commands": [
+        "railway service select frontend",
+        "railway variable set NEXT_PUBLIC_API_URL=http://localhost:8000",
+        "railway variable set NEXTAUTH_URL=http://localhost:3000",
+        "railway variable set NEXTAUTH_SECRET=$(openssl rand -base64 32)",
+        "railway variable set GOOGLE_CLIENT_ID=your_google_client_id.apps.googleusercontent.com",
+        "railway variable set GOOGLE_CLIENT_SECRET=your_google_client_secret",
+        "railway variable set FACEBOOK_CLIENT_ID=your_facebook_app_id",
+        "railway variable set FACEBOOK_CLIENT_SECRET=your_facebook_app_secret"
+      ]
+    },
+    {
+      "step": 4,
+      "title": "Verify GitHub Connection",
+      "status": "PENDING",
+      "instructions": [
+        "Ensure GitHub repo Apollomakesit/BeautySpotAnne is connected",
+        "Check in Railway → Project Settings → Plugins",
+        "Verify automatic deployments are enabled"
+      ]
+    },
+    {
+      "step": 5,
+      "title": "Deploy Services",
+      "status": "PENDING",
+      "instructions": [
+        "Push changes to GitHub (railway.json is configured)",
+        "Or manually trigger rebuild from Railway Dashboard",
+        "Monitor build logs in Deployments tab"
+      ]
+    }
+  ],
+  "commands_reference": {
+    "get_railway_token": "railway token",
+    "list_services": "railway service list",
+    "select_service": "railway service select <service_name>",
+    "set_variable": "railway variable set KEY=VALUE",
+    "add_postgres": "railway service add postgres",
+    "add_github_service": "railway service add github --repo Apollomakesit/BeautySpotAnne",
+    "view_logs": "railway logs",
+    "redeploy": "railway redeploy"
+  },
+  "troubleshooting": {
+    "terminal_stuck": {
+      "issue": "Terminal stuck in variable input mode",
+      "solution": "Use Railway Dashboard instead of CLI, or open a new terminal window"
+    },
+    "services_not_appearing": {
+      "issue": "Services don't appear in Railway dashboard",
+      "solution": "Verify GitHub repo is connected and railway.json has correct syntax"
+    },
+    "variables_not_applied": {
+      "issue": "Environment variables not being picked up",
+      "solution": "Redeploy services (push to GitHub or manually trigger rebuild)"
+    },
+    "postgres_connection_failed": {
+      "issue": "Backend can't connect to PostgreSQL",
+      "solution": "Check DATABASE_URL is auto-populated, verify PostgreSQL service is in same project"
+    }
+  },
+  "important_notes": [
+    "Backend runs on dynamic $PORT assigned by Railway",
+    "Frontend uses Next.js with 'next start' command",
+    "Database connection string available as DATABASE_URL automatically",
+    "Both services have auto-restart enabled as configured",
+    "Update URLs in environment variables after services are deployed",
+    "Generate NEXTAUTH_SECRET with: openssl rand -base64 32"
+  ]
+}

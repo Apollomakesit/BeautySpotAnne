@@ -3,6 +3,7 @@ import { Inter, Playfair_Display, Cormorant_Garamond } from 'next/font/google'
 import SessionWrapper from '../components/SessionWrapper'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
+import WhatsAppButton from '../components/WhatsAppButton'
 import { Toaster } from 'react-hot-toast'
 
 const inter = Inter({
@@ -60,6 +61,7 @@ export default function RootLayout({ children }) {
             {children}
           </main>
           <Footer />
+          <WhatsAppButton />
         </SessionWrapper>
       </body>
     </html>

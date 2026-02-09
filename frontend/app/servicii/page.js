@@ -2,11 +2,10 @@
 import { useEffect, useState, useRef } from 'react'
 import axios from 'axios'
 import Link from 'next/link'
+import Image from 'next/image'
 import { motion, useInView } from 'framer-motion'
-import { 
-  Clock, ArrowRight, Sparkles, Eye, Heart, Star, 
-  Layers, Wand2, Droplets, Scissors 
-} from 'lucide-react'
+import { Clock, ArrowRight, Sparkles } from 'lucide-react'
+import { LUXURY_PHOTOS, SERVICE_FALLBACK_IMAGES } from '../luxuryThemeData'
 
 function Reveal({ children, delay = 0, className = '' }) {
   const ref = useRef(null)
@@ -24,23 +23,18 @@ function Reveal({ children, delay = 0, className = '' }) {
   )
 }
 
-const SERVICE_ICONS = [Eye, Layers, Sparkles, Wand2, Heart, Droplets, Star, Scissors]
-const GRADIENT_COLORS = [
-  'from-beauty-rose/15 to-beauty-blush/15',
-  'from-beauty-gold/15 to-beauty-rose/10',
-  'from-beauty-sage/15 to-beauty-cream-dark/20',
-  'from-beauty-blush/15 to-beauty-gold/10',
-  'from-beauty-rose/10 to-beauty-sage/15',
-  'from-beauty-gold/10 to-beauty-blush/15',
-]
-
 export default function ServiciiPage() {
   const [services, setServices] = useState([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL
+    if (!apiUrl) {
+      setLoading(false)
+      return
+    }
     axios
-      .get(`${process.env.NEXT_PUBLIC_API_URL}/api/services`)
+      .get(`${apiUrl}/api/services`)
       .then((res) => setServices(res.data))
       .catch((err) => console.error(err))
       .finally(() => setLoading(false))
@@ -53,25 +47,47 @@ export default function ServiciiPage() {
         <div className="absolute top-10 right-0 w-[500px] h-[500px] bg-beauty-rose/10 rounded-full blur-[120px] -z-10" />
         <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-beauty-gold/8 rounded-full blur-[100px] -z-10" />
 
-        <div className="container-beauty text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            <span className="badge-gold mb-4 inline-flex">
-              <Sparkles className="w-3.5 h-3.5 mr-1.5" />
-              Tratamente Premium
-            </span>
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-display font-bold mb-6">
-              Serviciile <span className="gradient-text">Noastre</span>
-            </h1>
-            <p className="section-subheading mb-8">
-              Fiecare tratament este personalizat pentru a scoate în evidență
-              frumusețea ta naturală. Folosim doar produse premium și tehnici avansate.
-            </p>
-            <div className="divider-rose" />
-          </motion.div>
+        <div className="container-beauty">
+          <div className="grid lg:grid-cols-2 gap-10 items-center">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+            >
+              <span className="badge-gold mb-4 inline-flex">
+                <Sparkles className="w-3.5 h-3.5 mr-1.5" />
+                Tratamente Premium
+              </span>
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-display font-bold mb-6">
+                Serviciile <span className="gradient-text">Noastre</span>
+              </h1>
+              <p className="section-subheading !mx-0 mb-8">
+                Fiecare tratament este personalizat pentru a scoate in evidenta
+                frumusetea ta naturala. Folosim produse profesionale si un stil
+                feminin elegant, potrivit unei imagini premium.
+              </p>
+              <div className="divider-rose !mx-0" />
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.8, delay: 0.15 }}
+              className="relative hidden lg:block"
+            >
+              <div className="relative aspect-[4/5] rounded-[2.5rem] overflow-hidden shadow-beauty-xl">
+                <Image
+                  src={LUXURY_PHOTOS.heroDetail.src}
+                  alt={LUXURY_PHOTOS.heroDetail.alt}
+                  fill
+                  priority
+                  className="object-cover"
+                  sizes="(min-width: 1024px) 40vw, 100vw"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/35 via-black/5 to-transparent" />
+              </div>
+            </motion.div>
+          </div>
         </div>
       </section>
 
@@ -87,28 +103,27 @@ export default function ServiciiPage() {
           ) : services.length > 0 ? (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               {services.map((service, idx) => {
-                const Icon = SERVICE_ICONS[idx % SERVICE_ICONS.length]
-                const gradient = GRADIENT_COLORS[idx % GRADIENT_COLORS.length]
+                const fallbackImage = SERVICE_FALLBACK_IMAGES[idx % SERVICE_FALLBACK_IMAGES.length]
+                const imageSrc = service.image_url || fallbackImage.src
                 return (
                   <Reveal key={service.id} delay={(idx % 3) * 0.12}>
                     <div className="card-interactive group h-full flex flex-col">
-                      {/* Visual header */}
-                      <div className={`h-48 rounded-2xl bg-gradient-to-br ${gradient} mb-6 flex items-center justify-center relative overflow-hidden`}>
-                        {service.image_url ? (
-                          <img
-                            src={service.image_url}
-                            alt={service.name}
-                            className="w-full h-full object-cover"
-                            onError={(e) => {
-                              e.target.style.display = 'none'
-                              e.target.nextSibling.style.display = 'flex'
-                            }}
-                          />
-                        ) : null}
-                        <div className={`${service.image_url ? 'hidden' : 'flex'} w-full h-full items-center justify-center absolute inset-0`}>
-                          <Icon className="w-14 h-14 text-beauty-rose/30 group-hover:scale-110 transition-transform duration-500" />
-                        </div>
-                        <div className="absolute inset-0 bg-gold-shimmer animate-shimmer opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{ backgroundSize: '200% 100%' }} />
+                      <div className="h-48 rounded-2xl mb-6 relative overflow-hidden">
+                        <img
+                          src={imageSrc}
+                          alt={service.name || fallbackImage.alt}
+                          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                          loading="lazy"
+                          onError={(e) => {
+                            if (e.currentTarget.src !== fallbackImage.src) {
+                              e.currentTarget.src = fallbackImage.src
+                            }
+                          }}
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-black/10 to-transparent" />
+                        <span className="absolute top-3 left-3 px-3 py-1 rounded-full text-[11px] font-medium bg-white/90 text-beauty-charcoal">
+                          Luxury Beauty
+                        </span>
                       </div>
 
                       {/* Content */}
@@ -167,13 +182,21 @@ export default function ServiciiPage() {
                 { name: 'Întreținere 2 Săptămâni', desc: 'Completare și reglare la 2 săptămâni. Menține aspectul proaspăt al extensiilor.', price: '150', duration: '90', deposit: '50' },
                 { name: 'Îndepărtare Gene', desc: 'Îndepărtare profesională și sigură a extensiilor, fără a afecta genele naturale.', price: '80', duration: '45', deposit: '40' },
               ].map((service, idx) => {
-                const Icon = SERVICE_ICONS[idx % SERVICE_ICONS.length]
-                const gradient = GRADIENT_COLORS[idx % GRADIENT_COLORS.length]
+                const fallbackImage = SERVICE_FALLBACK_IMAGES[idx % SERVICE_FALLBACK_IMAGES.length]
                 return (
                   <Reveal key={idx} delay={(idx % 3) * 0.12}>
                     <div className="card-interactive group h-full flex flex-col">
-                      <div className={`h-48 rounded-2xl bg-gradient-to-br ${gradient} mb-6 flex items-center justify-center relative overflow-hidden`}>
-                        <Icon className="w-14 h-14 text-beauty-rose/30 group-hover:scale-110 transition-transform duration-500" />
+                      <div className="h-48 rounded-2xl mb-6 relative overflow-hidden">
+                        <img
+                          src={fallbackImage.src}
+                          alt={fallbackImage.alt}
+                          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                          loading="lazy"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-black/10 to-transparent" />
+                        <span className="absolute top-3 left-3 px-3 py-1 rounded-full text-[11px] font-medium bg-white/90 text-beauty-charcoal">
+                          Luxury Beauty
+                        </span>
                       </div>
                       <h2 className="text-xl font-display font-bold mb-2 group-hover:text-beauty-rose transition-colors">
                         {service.name}

@@ -33,6 +33,20 @@ export default function ContactPage() {
     message: '',
   })
   const [sending, setSending] = useState(false)
+  const CONTACT_CARD_STYLES = {
+    'beauty-rose': {
+      bg: 'bg-beauty-rose/10',
+      icon: 'text-beauty-rose',
+    },
+    'beauty-gold': {
+      bg: 'bg-beauty-gold/10',
+      icon: 'text-beauty-gold',
+    },
+    'beauty-sage': {
+      bg: 'bg-beauty-sage/10',
+      icon: 'text-beauty-sage',
+    },
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -211,8 +225,10 @@ export default function ContactPage() {
                 <Reveal key={idx} delay={idx * 0.1}>
                   <div className="card group">
                     <div className="flex items-start gap-4">
-                      <div className={`w-12 h-12 rounded-2xl bg-${item.color}/10 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300`}>
-                        <item.icon className={`w-5 h-5 text-${item.color}`} />
+                      <div
+                        className={`w-12 h-12 rounded-2xl ${CONTACT_CARD_STYLES[item.color]?.bg || CONTACT_CARD_STYLES['beauty-rose'].bg} flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300`}
+                      >
+                        <item.icon className={`w-5 h-5 ${CONTACT_CARD_STYLES[item.color]?.icon || CONTACT_CARD_STYLES['beauty-rose'].icon}`} />
                       </div>
                       <div>
                         <h3 className="font-display font-bold mb-1.5">{item.title}</h3>

@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useSession, signOut } from 'next-auth/react'
 import Image from 'next/image'
-import { Menu, X, Sparkles, User, LogOut, ChevronDown, Settings } from 'lucide-react'
+import { Menu, X, Sparkles, User, LogOut, ChevronDown, Settings, Crown } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 
 export default function Header() {
@@ -24,7 +24,7 @@ export default function Header() {
   }, [])
 
   const navLinks = [
-    { href: '/', label: 'Acasă' },
+    { href: '/', label: 'Acasa' },
     { href: '/servicii', label: 'Servicii' },
     { href: '/recenzii', label: 'Recenzii' },
     { href: '/booking', label: 'Programare' },
@@ -36,28 +36,28 @@ export default function Header() {
       <header
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
           isScrolled
-            ? 'bg-white/90 backdrop-blur-xl shadow-beauty py-3'
-            : 'bg-transparent py-5'
+            ? 'bg-white/95 backdrop-blur-xl shadow-beauty py-2.5'
+            : 'bg-transparent py-4'
         }`}
       >
         <nav className="container-beauty flex justify-between items-center">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2 group">
-            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-beauty-rose to-beauty-gold flex items-center justify-center shadow-beauty group-hover:shadow-beauty-lg transition-all duration-300 group-hover:scale-105">
-              <Sparkles className="w-5 h-5 text-white" />
+          <Link href="/" className="flex items-center gap-2.5 group">
+            <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-beauty-rose via-beauty-fuchsia to-beauty-rosegold flex items-center justify-center shadow-beauty group-hover:shadow-beauty-lg transition-all duration-300 group-hover:scale-105 group-hover:rotate-3">
+              <Crown className="w-5 h-5 text-white" />
             </div>
             <div>
               <span className="text-xl font-display font-bold text-beauty-charcoal tracking-tight">
-                Beauty<span className="text-beauty-rose">Spot</span>
+                Beauty<span className="gradient-text">Spot</span>
               </span>
-              <span className="block text-[10px] font-medium text-beauty-gold tracking-[0.2em] uppercase -mt-1">
+              <span className="block text-[10px] font-medium text-beauty-rosegold tracking-[0.2em] uppercase -mt-1">
                 by Anne
               </span>
             </div>
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-1">
+          <div className="hidden md:flex items-center gap-0.5">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
@@ -65,7 +65,7 @@ export default function Header() {
                 className="relative px-5 py-2.5 text-sm font-medium text-beauty-charcoal/80 hover:text-beauty-rose transition-colors duration-300 rounded-full hover:bg-beauty-rose/5 group"
               >
                 {link.label}
-                <span className="absolute bottom-1 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-beauty-rose rounded-full group-hover:w-6 transition-all duration-300" />
+                <span className="absolute bottom-1 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-gradient-to-r from-beauty-rose to-beauty-fuchsia rounded-full group-hover:w-6 transition-all duration-300" />
               </Link>
             ))}
           </div>
@@ -84,17 +84,17 @@ export default function Header() {
                       alt={session.user.name}
                       width={34}
                       height={34}
-                      className="rounded-full ring-2 ring-beauty-rose/20"
+                      className="rounded-full ring-2 ring-beauty-rose/30"
                     />
                   ) : (
-                    <div className="w-[34px] h-[34px] rounded-full bg-beauty-rose/10 flex items-center justify-center">
+                    <div className="w-[34px] h-[34px] rounded-full bg-gradient-to-br from-beauty-rose/20 to-beauty-fuchsia/20 flex items-center justify-center">
                       <User className="w-4 h-4 text-beauty-rose" />
                     </div>
                   )}
                   <span className="text-sm font-medium text-beauty-charcoal">
                     {session.user.name?.split(' ')[0]}
                   </span>
-                  <ChevronDown className={`w-4 h-4 text-gray-400 transition-transform duration-300 ${userMenuOpen ? 'rotate-180' : ''}`} />
+                  <ChevronDown className={`w-4 h-4 text-beauty-mauve transition-transform duration-300 ${userMenuOpen ? 'rotate-180' : ''}`} />
                 </button>
 
                 <AnimatePresence>
@@ -104,17 +104,17 @@ export default function Header() {
                       animate={{ opacity: 1, y: 0, scale: 1 }}
                       exit={{ opacity: 0, y: 8, scale: 0.95 }}
                       transition={{ duration: 0.2 }}
-                      className="absolute right-0 mt-2 w-52 bg-white rounded-2xl shadow-beauty-lg border border-beauty-cream-dark/50 p-2 z-50"
+                      className="absolute right-0 mt-2 w-52 bg-white rounded-2xl shadow-beauty-lg border border-beauty-blush-soft p-2 z-50"
                     >
-                      <div className="px-3 py-2 border-b border-beauty-cream-dark/50 mb-1">
+                      <div className="px-3 py-2 border-b border-beauty-blush-soft mb-1">
                         <p className="text-sm font-semibold text-beauty-charcoal">{session.user.name}</p>
-                        <p className="text-xs text-gray-400 truncate">{session.user.email}</p>
+                        <p className="text-xs text-beauty-mauve truncate">{session.user.email}</p>
                       </div>
                       {session.user.isAdmin && (
                         <Link
                           href="/admin/dashboard"
                           onClick={() => setUserMenuOpen(false)}
-                          className="w-full flex items-center gap-2.5 px-3 py-2.5 text-sm text-gray-600 hover:text-beauty-rose hover:bg-beauty-rose/5 rounded-xl transition-all duration-200"
+                          className="w-full flex items-center gap-2.5 px-3 py-2.5 text-sm text-beauty-warm hover:text-beauty-rose hover:bg-beauty-rose/5 rounded-xl transition-all duration-200"
                         >
                           <Settings className="w-4 h-4" />
                           Panou Admin
@@ -122,7 +122,7 @@ export default function Header() {
                       )}
                       <button
                         onClick={() => { signOut(); setUserMenuOpen(false) }}
-                        className="w-full flex items-center gap-2.5 px-3 py-2.5 text-sm text-gray-600 hover:text-red-500 hover:bg-red-50 rounded-xl transition-all duration-200"
+                        className="w-full flex items-center gap-2.5 px-3 py-2.5 text-sm text-beauty-warm hover:text-red-500 hover:bg-red-50 rounded-xl transition-all duration-200"
                       >
                         <LogOut className="w-4 h-4" />
                         Deconectare
@@ -134,22 +134,23 @@ export default function Header() {
             ) : (
               <Link
                 href="/login"
-                className="btn-primary !py-2.5 !px-6 text-sm flex items-center gap-2"
+                className="btn-secondary !py-2.5 !px-5 text-sm flex items-center gap-2 !border-beauty-rose/30"
               >
                 <User className="w-4 h-4" />
                 Autentificare
               </Link>
             )}
 
-            <Link href="/booking" className="btn-gold !py-2.5 !px-6 text-sm">
-              Programează-te
+            <Link href="/booking" className="btn-primary !py-2.5 !px-6 text-sm flex items-center gap-2">
+              <Sparkles className="w-3.5 h-3.5" />
+              Programeaza-te
             </Link>
           </div>
 
           {/* Mobile Hamburger */}
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
-            className="md:hidden p-2.5 rounded-full hover:bg-beauty-rose/10 transition-colors duration-300"
+            className="md:hidden p-2.5 rounded-2xl hover:bg-beauty-rose/10 transition-colors duration-300"
             aria-label="Toggle menu"
           >
             {mobileOpen ? (
@@ -169,7 +170,7 @@ export default function Header() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-black/20 backdrop-blur-sm z-40 md:hidden"
+              className="fixed inset-0 bg-beauty-charcoal/20 backdrop-blur-sm z-40 md:hidden"
               onClick={() => setMobileOpen(false)}
             />
             <motion.div
@@ -181,13 +182,18 @@ export default function Header() {
             >
               <div className="flex flex-col h-full">
                 {/* Mobile Header */}
-                <div className="flex items-center justify-between p-6 border-b border-beauty-cream-dark/50">
-                  <span className="text-lg font-display font-bold text-beauty-charcoal">
-                    Menu
-                  </span>
+                <div className="flex items-center justify-between p-6 border-b border-beauty-blush-soft">
+                  <div className="flex items-center gap-2">
+                    <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-beauty-rose to-beauty-fuchsia flex items-center justify-center">
+                      <Crown className="w-4 h-4 text-white" />
+                    </div>
+                    <span className="text-lg font-display font-bold text-beauty-charcoal">
+                      Menu
+                    </span>
+                  </div>
                   <button
                     onClick={() => setMobileOpen(false)}
-                    className="p-2 rounded-full hover:bg-beauty-rose/10 transition-colors"
+                    className="p-2 rounded-xl hover:bg-beauty-rose/10 transition-colors"
                   >
                     <X className="w-5 h-5 text-beauty-charcoal" />
                   </button>
@@ -214,7 +220,7 @@ export default function Header() {
                 </div>
 
                 {/* Mobile CTA */}
-                <div className="p-6 border-t border-beauty-cream-dark/50 space-y-3">
+                <div className="p-6 border-t border-beauty-blush-soft space-y-3 bg-beauty-cream/50">
                   {session ? (
                     <div className="flex items-center gap-3 mb-3">
                       {session.user.image && (
@@ -223,14 +229,14 @@ export default function Header() {
                           alt={session.user.name}
                           width={40}
                           height={40}
-                          className="rounded-full"
+                          className="rounded-full ring-2 ring-beauty-rose/20"
                         />
                       )}
                       <div>
                         <p className="font-semibold text-sm">{session.user.name}</p>
                         <button
                           onClick={() => signOut()}
-                          className="text-xs text-gray-400 hover:text-red-500"
+                          className="text-xs text-beauty-mauve hover:text-red-500"
                         >
                           Deconectare
                         </button>
@@ -250,7 +256,7 @@ export default function Header() {
                     onClick={() => setMobileOpen(false)}
                     className="btn-primary w-full text-center block"
                   >
-                    Programează-te Acum
+                    Programeaza-te Acum
                   </Link>
                 </div>
               </div>

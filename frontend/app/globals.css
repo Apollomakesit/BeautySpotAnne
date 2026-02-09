@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap');
 
 @layer base {
   * {
@@ -25,76 +25,88 @@
 @layer components {
   /* ─── Buttons ─────────────────────────────────────── */
   .btn-primary {
-    @apply relative overflow-hidden bg-beauty-rose hover:bg-beauty-rose-dark text-white 
-           font-semibold py-3.5 px-8 rounded-full transition-all duration-300 
-           shadow-beauty hover:shadow-beauty-lg hover:-translate-y-0.5 
+    @apply relative overflow-hidden bg-gradient-to-r from-beauty-rose to-beauty-fuchsia hover:from-beauty-rose-dark hover:to-beauty-rose-deep text-white
+           font-semibold py-3.5 px-8 rounded-full transition-all duration-300
+           shadow-beauty hover:shadow-beauty-lg hover:-translate-y-0.5
            active:translate-y-0 active:shadow-beauty;
   }
 
   .btn-primary::after {
     content: '';
-    @apply absolute inset-0 bg-gold-shimmer animate-shimmer;
+    @apply absolute inset-0 bg-pink-shimmer animate-shimmer;
     background-size: 200% 100%;
   }
 
   .btn-secondary {
-    @apply bg-transparent hover:bg-beauty-rose/10 text-beauty-charcoal 
-           font-semibold py-3.5 px-8 rounded-full border-2 border-beauty-rose/40 
-           hover:border-beauty-rose transition-all duration-300 
+    @apply bg-transparent hover:bg-beauty-rose/10 text-beauty-charcoal
+           font-semibold py-3.5 px-8 rounded-full border-2 border-beauty-rose/40
+           hover:border-beauty-rose transition-all duration-300
            hover:-translate-y-0.5;
   }
 
   .btn-gold {
-    @apply bg-beauty-gold hover:bg-beauty-gold/90 text-white 
-           font-semibold py-3.5 px-8 rounded-full transition-all duration-300 
+    @apply bg-gradient-to-r from-beauty-gold to-beauty-rosegold hover:from-beauty-rosegold-dark hover:to-beauty-gold text-white
+           font-semibold py-3.5 px-8 rounded-full transition-all duration-300
            shadow-gold hover:shadow-lg hover:-translate-y-0.5;
   }
 
   .btn-ghost {
-    @apply text-beauty-charcoal hover:text-beauty-rose font-medium 
-           py-2 px-4 rounded-full transition-all duration-300 
+    @apply text-beauty-charcoal hover:text-beauty-rose font-medium
+           py-2 px-4 rounded-full transition-all duration-300
            hover:bg-beauty-rose/5;
+  }
+
+  .btn-luxe {
+    @apply relative overflow-hidden bg-beauty-charcoal text-white
+           font-semibold py-3.5 px-8 rounded-full transition-all duration-300
+           hover:bg-beauty-charcoal/90 shadow-lg hover:shadow-xl hover:-translate-y-0.5;
   }
 
   /* ─── Cards ─────────────────────────────────────── */
   .card {
-    @apply bg-white rounded-3xl shadow-beauty p-8 transition-all duration-500 
-           hover:shadow-beauty-lg hover:-translate-y-1 border border-beauty-cream-dark/50;
+    @apply bg-white rounded-3xl shadow-beauty p-8 transition-all duration-500
+           hover:shadow-beauty-lg hover:-translate-y-1 border border-beauty-blush-soft/80;
   }
 
   .card-glass {
-    @apply backdrop-blur-xl bg-white/70 rounded-3xl shadow-beauty p-8 
-           border border-white/50 transition-all duration-500 
+    @apply backdrop-blur-xl bg-white/70 rounded-3xl shadow-beauty p-8
+           border border-white/50 transition-all duration-500
            hover:shadow-beauty-lg hover:bg-white/80;
   }
 
   .card-interactive {
-    @apply bg-white rounded-3xl shadow-beauty p-8 transition-all duration-500 
-           hover:shadow-beauty-xl hover:-translate-y-2 border border-beauty-cream-dark/50 
+    @apply bg-white rounded-3xl shadow-beauty p-8 transition-all duration-500
+           hover:shadow-card-hover hover:-translate-y-2 border border-beauty-blush-soft/80
            cursor-pointer;
+  }
+
+  .card-luxe {
+    @apply bg-gradient-to-br from-white via-beauty-blush-soft/30 to-beauty-rose-light/40
+           rounded-3xl shadow-beauty p-8 transition-all duration-500
+           hover:shadow-luxe hover:-translate-y-2 border border-beauty-blush/30;
   }
 
   /* ─── Form Elements ─────────────────────────────── */
   .input-beauty {
-    @apply w-full px-5 py-3.5 bg-white border-2 border-beauty-cream-dark 
-           rounded-2xl text-beauty-charcoal placeholder:text-gray-400 
-           focus:outline-none focus:border-beauty-rose focus:ring-4 
+    @apply w-full px-5 py-3.5 bg-white border-2 border-beauty-blush-soft
+           rounded-2xl text-beauty-charcoal placeholder:text-beauty-mauve/60
+           focus:outline-none focus:border-beauty-rose focus:ring-4
            focus:ring-beauty-rose/10 transition-all duration-300;
   }
 
   .select-beauty {
-    @apply w-full px-5 py-3.5 bg-white border-2 border-beauty-cream-dark 
-           rounded-2xl text-beauty-charcoal appearance-none 
-           focus:outline-none focus:border-beauty-rose focus:ring-4 
+    @apply w-full px-5 py-3.5 bg-white border-2 border-beauty-blush-soft
+           rounded-2xl text-beauty-charcoal appearance-none
+           focus:outline-none focus:border-beauty-rose focus:ring-4
            focus:ring-beauty-rose/10 transition-all duration-300
-           bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20fill%3D%22none%22%20stroke%3D%22%23D4A5A5%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22m6%209%206%206%206-6%22%2F%3E%3C%2Fsvg%3E')]
+           bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20fill%3D%22none%22%20stroke%3D%22%23E8788A%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22m6%209%206%206%206-6%22%2F%3E%3C%2Fsvg%3E')]
            bg-no-repeat bg-[position:right_1rem_center] bg-[length:1.25rem];
   }
 
   .textarea-beauty {
-    @apply w-full px-5 py-3.5 bg-white border-2 border-beauty-cream-dark 
-           rounded-2xl text-beauty-charcoal placeholder:text-gray-400 
-           focus:outline-none focus:border-beauty-rose focus:ring-4 
+    @apply w-full px-5 py-3.5 bg-white border-2 border-beauty-blush-soft
+           rounded-2xl text-beauty-charcoal placeholder:text-beauty-mauve/60
+           focus:outline-none focus:border-beauty-rose focus:ring-4
            focus:ring-beauty-rose/10 transition-all duration-300 resize-none;
   }
 
@@ -108,22 +120,24 @@
   }
 
   .section-subheading {
-    @apply text-lg md:text-xl text-gray-500 font-light max-w-2xl mx-auto mt-4;
+    @apply text-lg md:text-xl text-beauty-warm font-light max-w-2xl mx-auto mt-4;
   }
 
   /* ─── Decorative Elements ─────────────────────── */
   .divider-rose {
-    @apply w-16 h-1 bg-gradient-to-r from-beauty-rose to-beauty-gold rounded-full mx-auto;
+    @apply w-20 h-1 bg-gradient-to-r from-beauty-rose via-beauty-fuchsia to-beauty-rosegold rounded-full mx-auto;
   }
 
   .badge {
-    @apply inline-flex items-center px-4 py-1.5 rounded-full text-sm font-medium 
-           bg-beauty-rose/10 text-beauty-rose-dark;
+    @apply inline-flex items-center px-4 py-1.5 rounded-full text-sm font-medium
+           bg-gradient-to-r from-beauty-rose/10 to-beauty-fuchsia/10 text-beauty-rose-dark
+           border border-beauty-rose/20;
   }
 
   .badge-gold {
-    @apply inline-flex items-center px-4 py-1.5 rounded-full text-sm font-medium 
-           bg-beauty-gold/10 text-beauty-gold;
+    @apply inline-flex items-center px-4 py-1.5 rounded-full text-sm font-medium
+           bg-gradient-to-r from-beauty-gold/10 to-beauty-rosegold/10 text-beauty-gold
+           border border-beauty-gold/20;
   }
 
   /* ─── Responsive Container ────────────────────── */
@@ -196,7 +210,13 @@
 
 /* ─── Gradient Text ───────────────────────────────── */
 .gradient-text {
-  @apply bg-gradient-to-r from-beauty-rose via-beauty-gold to-beauty-rose 
+  @apply bg-gradient-to-r from-beauty-rose via-beauty-fuchsia to-beauty-rosegold
+         bg-clip-text text-transparent;
+  background-size: 200% auto;
+}
+
+.gradient-text-gold {
+  @apply bg-gradient-to-r from-beauty-gold via-beauty-rosegold to-beauty-gold
          bg-clip-text text-transparent;
   background-size: 200% auto;
 }
@@ -206,8 +226,49 @@
   @apply backdrop-blur-lg bg-white/70 border border-white/30;
 }
 
+.glass-pink {
+  @apply backdrop-blur-lg bg-beauty-rose-light/60 border border-beauty-blush/30;
+}
+
 /* ─── Dot pattern background ──────────────────────── */
 .dot-pattern {
-  background-image: radial-gradient(circle, rgba(212,165,165,0.15) 1px, transparent 1px);
+  background-image: radial-gradient(circle, rgba(232,120,138,0.1) 1px, transparent 1px);
   background-size: 24px 24px;
+}
+
+/* ─── Luxe pattern background ─────────────────────── */
+.luxe-pattern {
+  background-image:
+    radial-gradient(circle at 20% 50%, rgba(232,120,138,0.08) 0%, transparent 50%),
+    radial-gradient(circle at 80% 50%, rgba(212,163,115,0.08) 0%, transparent 50%),
+    radial-gradient(circle at 50% 20%, rgba(232,74,138,0.05) 0%, transparent 50%);
+}
+
+/* ─── Image overlay for professional photos ────────── */
+.img-overlay {
+  position: relative;
+}
+
+.img-overlay::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(45, 32, 40, 0.3), transparent 60%);
+  pointer-events: none;
+}
+
+/* ─── Pink glow effect ────────────────────────────── */
+.pink-glow {
+  box-shadow: 0 0 60px rgba(232, 120, 138, 0.15),
+              0 0 120px rgba(232, 120, 138, 0.05);
+}
+
+/* ─── Animated border ─────────────────────────────── */
+@keyframes borderGlow {
+  0%, 100% { border-color: rgba(232, 120, 138, 0.3); }
+  50% { border-color: rgba(232, 120, 138, 0.6); }
+}
+
+.border-glow {
+  animation: borderGlow 3s ease-in-out infinite;
 }

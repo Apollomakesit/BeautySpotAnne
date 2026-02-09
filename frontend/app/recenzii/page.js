@@ -2,12 +2,13 @@
 import { useState, useEffect, useRef } from 'react'
 import axios from 'axios'
 import Link from 'next/link'
+import Image from 'next/image'
 import { motion, useInView } from 'framer-motion'
 import toast from 'react-hot-toast'
 import clsx from 'clsx'
 import {
   Star, ArrowRight, Sparkles, MessageCircle, Send,
-  User, Loader2, Heart, Calendar, Quote
+  User, Loader2, Heart, Calendar, Quote, Crown
 } from 'lucide-react'
 
 function Reveal({ children, delay = 0, className = '' }) {
@@ -60,7 +61,7 @@ export default function RecenziiPage() {
     setSubmitting(true)
     try {
       await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/reviews/`, form)
-      toast.success('Recenzia ta a fost trimisă! Va fi afișată după aprobare.')
+      toast.success('Recenzia ta a fost trimisa! Va fi afisata dupa aprobare.')
       setForm({ client_name: '', rating: 5, text: '' })
       setShowForm(false)
     } catch (err) {
@@ -77,32 +78,34 @@ export default function RecenziiPage() {
   return (
     <div className="overflow-hidden">
       {/* Hero */}
-      <section className="relative pt-32 pb-20 dot-pattern">
-        <div className="absolute top-10 right-0 w-[500px] h-[500px] bg-beauty-rose/10 rounded-full blur-[120px] -z-10" />
-        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-beauty-gold/8 rounded-full blur-[100px] -z-10" />
+      <section className="relative pt-32 pb-20">
+        <div className="absolute inset-0 bg-hero-gradient -z-20" />
+        <div className="absolute inset-0 dot-pattern opacity-50 -z-10" />
+        <div className="absolute top-10 right-0 w-[500px] h-[500px] bg-beauty-fuchsia/8 rounded-full blur-[120px] -z-10" />
+        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-beauty-rosegold/10 rounded-full blur-[100px] -z-10" />
 
         <div className="container-beauty text-center">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
             <span className="badge-gold mb-4 inline-flex">
               <Star className="w-3.5 h-3.5 mr-1.5" />
-              Recenzii Clienți
+              Recenzii Clienti
             </span>
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-display font-bold mb-6">
               Ce Spun <span className="gradient-text">Clientele</span>
             </h1>
             <p className="section-subheading mb-6">
-              Experiențe reale de la clientele care ne-au trecut pragul.
+              Experiente reale de la clientele care ne-au trecut pragul.
             </p>
 
             {/* Rating Summary */}
-            <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-white shadow-beauty">
+            <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-white shadow-beauty border border-beauty-blush/30">
               <div className="flex gap-0.5">
                 {[...Array(5)].map((_, i) => (
-                  <Star key={i} className="w-5 h-5 text-beauty-gold fill-beauty-gold" />
+                  <Star key={i} className="w-5 h-5 text-beauty-rose fill-beauty-rose" />
                 ))}
               </div>
               <span className="text-2xl font-display font-bold text-beauty-charcoal">{avgRating}</span>
-              <span className="text-sm text-gray-400">({reviews.length} recenzii)</span>
+              <span className="text-sm text-beauty-warm">({reviews.length} recenzii)</span>
             </div>
 
             <div className="divider-rose mt-8" />
@@ -120,14 +123,14 @@ export default function RecenziiPage() {
               className={clsx(
                 'inline-flex items-center gap-2 px-6 py-3 rounded-full font-medium text-sm transition-all duration-300',
                 showForm
-                  ? 'bg-gray-100 text-gray-600'
-                  : 'bg-beauty-rose text-white shadow-beauty hover:bg-beauty-rose-dark'
+                  ? 'bg-beauty-cream-dark text-beauty-warm border border-beauty-blush/30'
+                  : 'btn-primary'
               )}
             >
-              {showForm ? 'Anulează' : (
+              {showForm ? 'Anuleaza' : (
                 <>
                   <MessageCircle className="w-4 h-4" />
-                  Lasă o Recenzie
+                  Lasa o Recenzie
                 </>
               )}
             </button>
@@ -137,15 +140,15 @@ export default function RecenziiPage() {
           {showForm && (
             <Reveal>
               <div className="max-w-lg mx-auto mb-16">
-                <div className="card">
+                <div className="card border-beauty-blush/30">
                   <h2 className="text-xl font-display font-bold mb-6">
                     Scrie o Recenzie
                   </h2>
                   <form onSubmit={handleSubmit} className="space-y-5">
                     <div>
-                      <label className="block text-sm font-medium text-gray-600 mb-2">Numele tău</label>
+                      <label className="block text-sm font-medium text-beauty-charcoal mb-2">Numele tau</label>
                       <div className="relative">
-                        <User className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                        <User className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-beauty-mauve" />
                         <input
                           type="text"
                           required
@@ -158,7 +161,7 @@ export default function RecenziiPage() {
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-gray-600 mb-2">Rating</label>
+                      <label className="block text-sm font-medium text-beauty-charcoal mb-2">Rating</label>
                       <div className="flex gap-2">
                         {[1, 2, 3, 4, 5].map((rating) => (
                           <button
@@ -171,8 +174,8 @@ export default function RecenziiPage() {
                               className={clsx(
                                 'w-8 h-8 transition-colors',
                                 rating <= form.rating
-                                  ? 'text-beauty-gold fill-beauty-gold'
-                                  : 'text-gray-200 hover:text-beauty-gold/50'
+                                  ? 'text-beauty-rose fill-beauty-rose'
+                                  : 'text-beauty-cream-dark hover:text-beauty-rose/50'
                               )}
                             />
                           </button>
@@ -181,12 +184,12 @@ export default function RecenziiPage() {
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-gray-600 mb-2">
-                        Experiența ta
+                      <label className="block text-sm font-medium text-beauty-charcoal mb-2">
+                        Experienta ta
                       </label>
                       <textarea
                         required
-                        placeholder="Spune-ne cum a fost experiența ta la salon..."
+                        placeholder="Spune-ne cum a fost experienta ta la salon..."
                         rows="4"
                         value={form.text}
                         onChange={(e) => setForm({ ...form, text: e.target.value })}
@@ -207,8 +210,8 @@ export default function RecenziiPage() {
                       {submitting ? 'Se trimite...' : 'Trimite Recenzia'}
                     </button>
 
-                    <p className="text-xs text-gray-400">
-                      Recenzia va fi afișată pe site după aprobare.
+                    <p className="text-xs text-beauty-warm">
+                      Recenzia va fi afisata pe site dupa aprobare.
                     </p>
                   </form>
                 </div>
@@ -227,7 +230,14 @@ export default function RecenziiPage() {
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {reviews.map((review, idx) => (
                 <Reveal key={review.id} delay={(idx % 3) * 0.1}>
-                  <div className="card h-full flex flex-col">
+                  <div className="card-luxe h-full flex flex-col relative">
+                    {/* Decorative quote */}
+                    <div className="absolute top-6 right-6 text-beauty-blush">
+                      <svg className="w-8 h-8 opacity-30" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/>
+                      </svg>
+                    </div>
+
                     {/* Stars */}
                     <div className="flex gap-0.5 mb-4">
                       {[...Array(5)].map((_, i) => (
@@ -236,8 +246,8 @@ export default function RecenziiPage() {
                           className={clsx(
                             'w-4 h-4',
                             i < review.rating
-                              ? 'text-beauty-gold fill-beauty-gold'
-                              : 'text-gray-200'
+                              ? 'text-beauty-rose fill-beauty-rose'
+                              : 'text-beauty-cream-dark'
                           )}
                         />
                       ))}
@@ -245,15 +255,15 @@ export default function RecenziiPage() {
 
                     {/* Text */}
                     {review.text && (
-                      <p className="text-gray-600 text-sm leading-relaxed flex-1 mb-4">
+                      <p className="text-beauty-charcoal/80 text-sm leading-relaxed flex-1 mb-4 italic">
                         &ldquo;{review.text}&rdquo;
                       </p>
                     )}
 
                     {/* Author */}
-                    <div className="flex items-center gap-3 pt-4 border-t border-beauty-cream-dark/50">
-                      <div className="w-10 h-10 rounded-full bg-beauty-rose/10 flex items-center justify-center">
-                        <span className="text-sm font-semibold text-beauty-rose">
+                    <div className="flex items-center gap-3 pt-4 border-t border-beauty-blush/40">
+                      <div className="w-10 h-10 rounded-full bg-gradient-to-br from-beauty-rose to-beauty-fuchsia flex items-center justify-center">
+                        <span className="text-sm font-semibold text-white">
                           {review.client_name.charAt(0)}
                         </span>
                       </div>
@@ -261,7 +271,7 @@ export default function RecenziiPage() {
                         <p className="text-sm font-semibold text-beauty-charcoal">
                           {review.client_name}
                         </p>
-                        <p className="text-xs text-gray-400">
+                        <p className="text-xs text-beauty-warm">
                           {new Date(review.created_at).toLocaleDateString('ro-RO', {
                             month: 'long', year: 'numeric'
                           })}
@@ -274,19 +284,19 @@ export default function RecenziiPage() {
             </div>
           ) : (
             <div className="text-center py-16">
-              <Star className="w-16 h-16 text-beauty-cream-dark mx-auto mb-4" />
+              <Star className="w-16 h-16 text-beauty-blush-soft mx-auto mb-4" />
               <h3 className="text-xl font-display font-bold mb-2">
-                Fii prima care lasă o recenzie!
+                Fii prima care lasa o recenzie!
               </h3>
-              <p className="text-gray-500 text-sm mb-6">
-                Ne-ar plăcea să auzim despre experiența ta.
+              <p className="text-beauty-warm text-sm mb-6">
+                Ne-ar placea sa auzim despre experienta ta.
               </p>
               <button
                 onClick={() => setShowForm(true)}
                 className="btn-primary inline-flex items-center gap-2"
               >
                 <MessageCircle className="w-4 h-4" />
-                Lasă o Recenzie
+                Lasa o Recenzie
               </button>
             </div>
           )}
@@ -294,17 +304,18 @@ export default function RecenziiPage() {
       </section>
 
       {/* Google Reviews Link */}
-      <section className="py-16 bg-beauty-cream-dark/30">
+      <section className="py-16 relative">
+        <div className="absolute inset-0 luxe-pattern -z-10" />
         <div className="container-beauty">
           <Reveal>
-            <div className="card-glass text-center py-12 px-8">
-              <Star className="w-8 h-8 text-beauty-gold mx-auto mb-4" />
+            <div className="card-glass text-center py-12 px-8 bg-gradient-to-br from-beauty-rose-light/40 to-beauty-blush-soft/40 border border-beauty-blush/30">
+              <Star className="w-8 h-8 text-beauty-rose mx-auto mb-4" />
               <h3 className="text-2xl font-display font-bold mb-3">
-                Ne poți lăsa și o recenzie pe Google
+                Ne poti lasa si o recenzie pe Google
               </h3>
-              <p className="text-gray-500 mb-6 max-w-lg mx-auto">
-                Recenziile Google ne ajută enorm! Dacă ai avut o experiență frumoasă, 
-                lasă-ne și o recenzie pe Google Maps.
+              <p className="text-beauty-warm mb-6 max-w-lg mx-auto">
+                Recenziile Google ne ajuta enorm! Daca ai avut o experienta frumoasa,
+                lasa-ne si o recenzie pe Google Maps.
               </p>
               <a
                 href="https://g.page/r/beautyspotanne/review"
@@ -326,22 +337,32 @@ export default function RecenziiPage() {
       </section>
 
       {/* CTA */}
-      <section className="py-20">
+      <section className="py-20 bg-white">
         <div className="container-beauty">
           <Reveal>
-            <div className="card-glass text-center py-12 px-8 bg-gradient-to-br from-beauty-rose/5 to-beauty-gold/5">
-              <Calendar className="w-8 h-8 text-beauty-gold mx-auto mb-4" />
-              <h3 className="text-2xl md:text-3xl font-display font-bold mb-3">
-                Vrei și tu o experiență de 5 stele?
-              </h3>
-              <p className="text-gray-500 mb-6 max-w-lg mx-auto">
-                Programează-ți vizita și vei descoperi de ce clientele noastre ne iubesc.
-              </p>
-              <Link href="/booking" className="btn-primary inline-flex items-center gap-2">
-                <Calendar className="w-4 h-4" />
-                Programează-te Acum
-                <ArrowRight className="w-4 h-4" />
-              </Link>
+            <div className="relative rounded-3xl overflow-hidden">
+              <Image
+                src="https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=1200&h=400&fit=crop"
+                alt="Beauty experience"
+                fill
+                className="object-cover"
+                sizes="100vw"
+              />
+              <div className="absolute inset-0 bg-gradient-to-r from-beauty-rose/90 via-beauty-fuchsia/85 to-beauty-rosegold/90" />
+              <div className="relative text-center py-16 px-8">
+                <Calendar className="w-8 h-8 text-white/80 mx-auto mb-4" />
+                <h3 className="text-2xl md:text-3xl font-display font-bold mb-3 text-white">
+                  Vrei si tu o experienta de 5 stele?
+                </h3>
+                <p className="text-white/80 mb-6 max-w-lg mx-auto">
+                  Programeaza-ti vizita si vei descoperi de ce clientele noastre ne iubesc.
+                </p>
+                <Link href="/booking" className="bg-white text-beauty-rose hover:bg-beauty-cream font-semibold py-3.5 px-8 rounded-full transition-all duration-300 shadow-xl hover:shadow-2xl hover:-translate-y-1 inline-flex items-center gap-2">
+                  <Calendar className="w-4 h-4" />
+                  Programeaza-te Acum
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
+              </div>
             </div>
           </Reveal>
         </div>

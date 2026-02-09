@@ -2,11 +2,21 @@
 import { useEffect, useState, useRef } from 'react'
 import axios from 'axios'
 import Link from 'next/link'
+import Image from 'next/image'
 import { motion, useInView } from 'framer-motion'
 import { 
   Clock, ArrowRight, Sparkles, Eye, Heart, Star, 
   Layers, Wand2, Droplets, Scissors 
 } from 'lucide-react'
+
+const SERVICE_IMAGES = [
+  'https://images.unsplash.com/photo-1605496034656-0b389d316773?w=600&q=85',
+  'https://images.unsplash.com/photo-1560066984-138dadb4c035?w=600&q=85',
+  'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=600&q=85',
+  'https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=600&q=85',
+  'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=600&q=85',
+  'https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?w=600&q=85',
+]
 
 function Reveal({ children, delay = 0, className = '' }) {
   const ref = useRef(null)
@@ -49,7 +59,17 @@ export default function ServiciiPage() {
   return (
     <div className="overflow-hidden">
       {/* ═══════ PAGE HERO ═══════ */}
-      <section className="relative pt-32 pb-20 dot-pattern">
+      <section className="relative pt-32 pb-20 dot-pattern overflow-hidden">
+        <div className="absolute inset-0 -z-10">
+          <Image
+            src="https://images.unsplash.com/photo-1516975080664-ed2fc6a32937?w=1920&q=60"
+            alt=""
+            fill
+            className="object-cover"
+            priority={false}
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-beauty-cream/95 via-beauty-cream/90 to-beauty-cream" />
+        </div>
         <div className="absolute top-10 right-0 w-[500px] h-[500px] bg-beauty-rose/10 rounded-full blur-[120px] -z-10" />
         <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-beauty-gold/8 rounded-full blur-[100px] -z-10" />
 
@@ -94,20 +114,15 @@ export default function ServiciiPage() {
                     <div className="card-interactive group h-full flex flex-col">
                       {/* Visual header */}
                       <div className={`h-48 rounded-2xl bg-gradient-to-br ${gradient} mb-6 flex items-center justify-center relative overflow-hidden`}>
-                        {service.image_url ? (
-                          <img
-                            src={service.image_url}
-                            alt={service.name}
-                            className="w-full h-full object-cover"
-                            onError={(e) => {
-                              e.target.style.display = 'none'
-                              e.target.nextSibling.style.display = 'flex'
-                            }}
-                          />
-                        ) : null}
-                        <div className={`${service.image_url ? 'hidden' : 'flex'} w-full h-full items-center justify-center absolute inset-0`}>
-                          <Icon className="w-14 h-14 text-beauty-rose/30 group-hover:scale-110 transition-transform duration-500" />
-                        </div>
+                        <Image
+                          src={service.image_url || SERVICE_IMAGES[idx % SERVICE_IMAGES.length]}
+                          alt={service.name}
+                          fill
+                          className="object-cover transition-transform duration-700 group-hover:scale-110"
+                          sizes="(max-width: 768px) 100vw, 33vw"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-white/50 to-transparent" />
+                        <Icon className="absolute bottom-3 right-3 w-10 h-10 text-beauty-rose/60 group-hover:scale-110 transition-transform duration-500" />
                         <div className="absolute inset-0 bg-gold-shimmer animate-shimmer opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{ backgroundSize: '200% 100%' }} />
                       </div>
 
@@ -173,7 +188,15 @@ export default function ServiciiPage() {
                   <Reveal key={idx} delay={(idx % 3) * 0.12}>
                     <div className="card-interactive group h-full flex flex-col">
                       <div className={`h-48 rounded-2xl bg-gradient-to-br ${gradient} mb-6 flex items-center justify-center relative overflow-hidden`}>
-                        <Icon className="w-14 h-14 text-beauty-rose/30 group-hover:scale-110 transition-transform duration-500" />
+                        <Image
+                          src={SERVICE_IMAGES[idx % SERVICE_IMAGES.length]}
+                          alt={service.name}
+                          fill
+                          className="object-cover transition-transform duration-700 group-hover:scale-110"
+                          sizes="(max-width: 768px) 100vw, 33vw"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-white/40 to-transparent" />
+                        <Icon className="absolute bottom-3 right-3 w-10 h-10 text-beauty-rose/60 group-hover:scale-110 transition-transform duration-500" />
                       </div>
                       <h2 className="text-xl font-display font-bold mb-2 group-hover:text-beauty-rose transition-colors">
                         {service.name}

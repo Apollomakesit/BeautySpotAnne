@@ -7,20 +7,23 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'beauty-rose': '#D4A5A5',
-        'beauty-rose-dark': '#B88A8A',
-        'beauty-rose-light': '#F0DEDE',
-        'beauty-gold': '#C9A961',
-        'beauty-gold-light': '#E8D5A8',
-        'beauty-cream': '#FBF8F4',
-        'beauty-cream-dark': '#F0EAE0',
-        'beauty-charcoal': '#2D2D2D',
-        'beauty-warm': '#8B7355',
-        'beauty-blush': '#F2C4C4',
-        'beauty-sage': '#A8B5A0',
+        /* Pink girlish luxurious palette */
+        'beauty-rose': '#E8A0B8',
+        'beauty-rose-dark': '#D17A96',
+        'beauty-rose-light': '#F5D0DC',
+        'beauty-gold': '#D4AF37',
+        'beauty-gold-light': '#F0E0B0',
+        'beauty-cream': '#FFF9F7',
+        'beauty-cream-dark': '#FBF0ED',
+        'beauty-charcoal': '#2C2426',
+        'beauty-warm': '#B8866B',
+        'beauty-blush': '#FFE4E1',
+        'beauty-sage': '#B8A99A',
+        'beauty-pink': '#FFC0CB',
+        'beauty-champagne': '#F7E7CE',
       },
       fontFamily: {
-        'display': ['Playfair Display', 'Georgia', 'serif'],
+        'display': ['var(--font-cormorant)', 'Cormorant Garamond', 'Georgia', 'serif'],
         'body': ['Inter', 'system-ui', 'sans-serif'],
       },
       animation: {
@@ -74,14 +77,16 @@ module.exports = {
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'gold-shimmer': 'linear-gradient(110deg, transparent 25%, rgba(201,169,97,0.15) 50%, transparent 75%)',
+        'gold-shimmer': 'linear-gradient(110deg, transparent 25%, rgba(212,175,55,0.2) 50%, transparent 75%)',
+        'pink-luxury': 'linear-gradient(135deg, #FFF9F7 0%, #FBF0ED 50%, #FFF0F5 100%)',
       },
       boxShadow: {
-        'beauty': '0 4px 20px rgba(212, 165, 165, 0.15)',
-        'beauty-lg': '0 8px 40px rgba(212, 165, 165, 0.2)',
-        'beauty-xl': '0 12px 60px rgba(212, 165, 165, 0.25)',
-        'gold': '0 4px 20px rgba(201, 169, 97, 0.15)',
-        'inner-glow': 'inset 0 0 20px rgba(212, 165, 165, 0.1)',
+        'beauty': '0 4px 24px rgba(232, 160, 184, 0.18)',
+        'beauty-lg': '0 12px 48px rgba(232, 160, 184, 0.22)',
+        'beauty-xl': '0 20px 60px rgba(232, 160, 184, 0.28)',
+        'gold': '0 4px 24px rgba(212, 175, 55, 0.2)',
+        'inner-glow': 'inset 0 0 24px rgba(232, 160, 184, 0.08)',
+        'luxury': '0 25px 50px -12px rgba(232, 160, 184, 0.15)',
       },
       borderRadius: {
         '2xl': '1rem',

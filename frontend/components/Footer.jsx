@@ -3,13 +3,13 @@ import { Sparkles, MapPin, Phone, Mail, Clock, Instagram, Facebook, Heart } from
 
 export default function Footer() {
   return (
-    <footer className="relative bg-beauty-charcoal text-white overflow-hidden">
+    <footer className="relative bg-gradient-to-b from-beauty-charcoal to-[#1a1618] text-white overflow-hidden">
       {/* Decorative top wave */}
-      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-beauty-rose/40 to-transparent" />
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-beauty-rose/50 to-transparent" />
       
       {/* Subtle decorative elements */}
-      <div className="absolute top-20 right-10 w-64 h-64 bg-beauty-rose/5 rounded-full blur-3xl" />
-      <div className="absolute bottom-10 left-10 w-48 h-48 bg-beauty-gold/5 rounded-full blur-3xl" />
+      <div className="absolute top-20 right-10 w-72 h-72 bg-beauty-rose/8 rounded-full blur-3xl" />
+      <div className="absolute bottom-10 left-10 w-56 h-56 bg-beauty-gold/6 rounded-full blur-3xl" />
 
       {/* Main Footer Content */}
       <div className="relative container-beauty pt-20 pb-12">

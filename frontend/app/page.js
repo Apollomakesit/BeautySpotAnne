@@ -1,5 +1,6 @@
 'use client'
 import Link from 'next/link'
+import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
 import axios from 'axios'
 import { motion, useInView } from 'framer-motion'
@@ -7,6 +8,19 @@ import {
   Sparkles, Star, Clock, ArrowRight, Shield, Award, Heart, 
   ChevronRight, Instagram, Phone, Calendar, Eye 
 } from 'lucide-react'
+
+/* Professional beauty photography from Unsplash */
+const HERO_IMAGE = 'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=800&q=85'
+const INSTAGRAM_IMAGES = [
+  'https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=400&q=80',
+  'https://images.unsplash.com/photo-1516975080664-ed2fc6a32937?w=400&q=80',
+  'https://images.unsplash.com/photo-1605496034656-0b389d316773?w=400&q=80',
+  'https://images.unsplash.com/photo-1560066984-138dadb4c035?w=400&q=80',
+  'https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=400&q=80',
+  'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=400&q=80',
+  'https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?w=400&q=80',
+  'https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=400&q=80',
+]
 
 /* ───── Scroll‑reveal wrapper ───── */
 function Reveal({ children, delay = 0, className = '' }) {
@@ -74,7 +88,7 @@ export default function Home() {
                 <span className="relative">
                   <span className="gradient-text">Perfectă</span>
                   <svg className="absolute -bottom-2 left-0 w-full" viewBox="0 0 200 12" fill="none">
-                    <path d="M2 8 C50 2, 150 2, 198 8" stroke="#D4A5A5" strokeWidth="3" strokeLinecap="round" />
+                    <path d="M2 8 C50 2, 150 2, 198 8" stroke="#E8A0B8" strokeWidth="3" strokeLinecap="round" />
                   </svg>
                 </span>
                 <br />
@@ -121,12 +135,18 @@ export default function Home() {
               className="relative hidden lg:block"
             >
               <div className="relative w-full aspect-[4/5] max-w-lg mx-auto">
-                {/* Main image placeholder */}
-                <div className="absolute inset-0 rounded-[2.5rem] bg-gradient-to-br from-beauty-rose/30 via-beauty-blush/20 to-beauty-gold/20 shadow-beauty-xl overflow-hidden">
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent" />
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <Eye className="w-16 h-16 text-beauty-rose/40" />
-                  </div>
+                {/* Professional hero image */}
+                <div className="absolute inset-0 rounded-[2.5rem] shadow-beauty-xl overflow-hidden">
+                  <Image
+                    src={HERO_IMAGE}
+                    alt="BeautySpot Anne - Extensii gene premium București"
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 1024px) 0vw, 500px"
+                    priority
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-beauty-charcoal/20 via-transparent to-transparent" />
+                  <div className="absolute inset-0 ring-2 ring-inset ring-white/20 rounded-[2.5rem]" />
                 </div>
 
                 {/* Floating card – reviews */}
@@ -190,6 +210,7 @@ export default function Home() {
                 price: '250',
                 duration: '2h',
                 color: 'from-beauty-rose/10 to-beauty-blush/10',
+                image: 'https://images.unsplash.com/photo-1605496034656-0b389d316773?w=600&q=85',
               },
               {
                 icon: Sparkles,
@@ -198,6 +219,7 @@ export default function Home() {
                 price: '300',
                 duration: '2.5h',
                 color: 'from-beauty-gold/10 to-beauty-rose/10',
+                image: 'https://images.unsplash.com/photo-1560066984-138dadb4c035?w=600&q=85',
               },
               {
                 icon: Heart,
@@ -206,13 +228,22 @@ export default function Home() {
                 price: '180',
                 duration: '1h',
                 color: 'from-beauty-sage/10 to-beauty-cream-dark/30',
+                image: 'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=600&q=85',
               },
             ].map((service, idx) => (
               <Reveal key={idx} delay={idx * 0.15}>
                 <div className="card-interactive group h-full flex flex-col">
-                  {/* Gradient header */}
+                  {/* Service image */}
                   <div className={`h-48 rounded-2xl bg-gradient-to-br ${service.color} mb-6 flex items-center justify-center relative overflow-hidden`}>
-                    <service.icon className="w-12 h-12 text-beauty-rose/40 group-hover:scale-110 transition-transform duration-500" />
+                    <Image
+                      src={service.image}
+                      alt={service.name}
+                      fill
+                      className="object-cover transition-transform duration-700 group-hover:scale-110"
+                      sizes="(max-width: 768px) 100vw, 33vw"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-white/60 to-transparent" />
+                    <service.icon className="absolute bottom-3 right-3 w-10 h-10 text-beauty-rose/60 group-hover:scale-110 transition-transform duration-500" />
                     {/* Shimmer overlay */}
                     <div className="absolute inset-0 bg-gold-shimmer animate-shimmer opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{ backgroundSize: '200% 100%' }} />
                   </div>
@@ -381,17 +412,25 @@ export default function Home() {
           </Reveal>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
+            {INSTAGRAM_IMAGES.map((src, i) => (
               <Reveal key={i} delay={(i % 4) * 0.1}>
                 <a
                   href="https://instagram.com/beautyspotanne"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group relative aspect-square rounded-2xl overflow-hidden bg-gradient-to-br from-beauty-rose/20 via-beauty-blush/10 to-beauty-gold/20"
+                  className="group relative aspect-square rounded-2xl overflow-hidden shadow-beauty"
                 >
-                  <div className="absolute inset-0 bg-beauty-charcoal/0 group-hover:bg-beauty-charcoal/40 flex items-center justify-center transition-all duration-500">
-                    <Instagram className="w-6 h-6 text-white opacity-0 group-hover:opacity-100 scale-50 group-hover:scale-100 transition-all duration-500" />
+                  <Image
+                    src={src}
+                    alt={`BeautySpot gallery ${i + 1}`}
+                    fill
+                    className="object-cover transition-transform duration-700 group-hover:scale-110"
+                    sizes="(max-width: 768px) 50vw, 25vw"
+                  />
+                  <div className="absolute inset-0 bg-beauty-rose/0 group-hover:bg-beauty-rose/30 flex items-center justify-center transition-all duration-500">
+                    <Instagram className="w-8 h-8 text-white opacity-0 group-hover:opacity-100 scale-50 group-hover:scale-100 transition-all duration-500 drop-shadow-lg" />
                   </div>
+                  <div className="absolute inset-0 rounded-2xl ring-1 ring-white/20" />
                 </a>
               </Reveal>
             ))}
@@ -401,8 +440,8 @@ export default function Home() {
 
       {/* ═══════ CTA SECTION ═══════ */}
       <section className="relative py-24 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-beauty-rose via-beauty-rose-dark to-beauty-warm -z-10" />
-        <div className="absolute inset-0 dot-pattern opacity-10 -z-10" />
+        <div className="absolute inset-0 bg-gradient-to-br from-beauty-rose via-beauty-rose-dark to-beauty-gold/80 -z-10" />
+        <div className="absolute inset-0 dot-pattern opacity-15 -z-10" />
         
         {/* Decorative blurs */}
         <div className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full blur-[80px]" />

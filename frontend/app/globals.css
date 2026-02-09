@@ -2,8 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap');
-
 @layer base {
   * {
     scroll-behavior: smooth;
@@ -208,6 +206,17 @@
 
 /* ─── Dot pattern background ──────────────────────── */
 .dot-pattern {
-  background-image: radial-gradient(circle, rgba(212,165,165,0.15) 1px, transparent 1px);
-  background-size: 24px 24px;
+  background-image: radial-gradient(circle, rgba(232,160,184,0.12) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+/* ─── Luxury gradient overlay ─────────────────────── */
+.luxury-overlay {
+  background: linear-gradient(180deg, rgba(255,249,247,0.7) 0%, transparent 50%, rgba(232,160,184,0.05) 100%);
+}
+
+/* ─── Elegant underline animation ─────────────────── */
+@keyframes shimmer-line {
+  0% { background-position: -100% 0; }
+  100% { background-position: 200% 0; }
 }

@@ -185,34 +185,38 @@ export default function ContactPage() {
                   icon: MapPin,
                   title: 'Adresa Salonului',
                   lines: ['București, România', 'Sector 1'],
-                  color: 'beauty-rose',
+                  iconBg: 'bg-beauty-rose/10',
+                  iconColor: 'text-beauty-rose',
                 },
                 {
                   icon: Phone,
                   title: 'Telefon',
                   lines: ['+40 XXX XXX XXX'],
                   href: 'tel:+40XXXXXXXXX',
-                  color: 'beauty-gold',
+                  iconBg: 'bg-beauty-gold/10',
+                  iconColor: 'text-beauty-gold',
                 },
                 {
                   icon: Mail,
                   title: 'Email',
                   lines: ['contact@beautyspotanne.ro'],
                   href: 'mailto:contact@beautyspotanne.ro',
-                  color: 'beauty-sage',
+                  iconBg: 'bg-beauty-sage/20',
+                  iconColor: 'text-beauty-sage',
                 },
                 {
                   icon: Clock,
                   title: 'Program',
                   lines: ['Luni - Vineri: 10:00 - 20:00', 'Sâmbătă: 10:00 - 16:00', 'Duminică: Închis'],
-                  color: 'beauty-rose',
+                  iconBg: 'bg-beauty-rose/10',
+                  iconColor: 'text-beauty-rose',
                 },
               ].map((item, idx) => (
                 <Reveal key={idx} delay={idx * 0.1}>
                   <div className="card group">
                     <div className="flex items-start gap-4">
-                      <div className={`w-12 h-12 rounded-2xl bg-${item.color}/10 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300`}>
-                        <item.icon className={`w-5 h-5 text-${item.color}`} />
+                      <div className={`w-12 h-12 rounded-2xl ${item.iconBg} flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300`}>
+                        <item.icon className={`w-5 h-5 ${item.iconColor}`} />
                       </div>
                       <div>
                         <h3 className="font-display font-bold mb-1.5">{item.title}</h3>

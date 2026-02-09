@@ -3,9 +3,13 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from .database import engine, Base
 from .routers import services, bookings, availability, users, contact, reviews
+from .init_db import init_db
 
 # Create tables
 Base.metadata.create_all(bind=engine)
+
+# Run migrations
+init_db()
 
 app = FastAPI(title="BeautySpot Anne API")
 

@@ -4,9 +4,10 @@ import { motion, useInView } from 'framer-motion'
 import toast from 'react-hot-toast'
 import axios from 'axios'
 import Link from 'next/link'
+import Image from 'next/image'
 import {
   MapPin, Phone, Mail, Clock, Send, Instagram, Facebook,
-  Sparkles, MessageCircle, ArrowRight, Heart, Calendar
+  Sparkles, MessageCircle, ArrowRight, Heart, Calendar, Crown
 } from 'lucide-react'
 
 function Reveal({ children, delay = 0, className = '' }) {
@@ -45,11 +46,11 @@ export default function ContactPage() {
         // Fallback: simulate if API not available
         await new Promise((r) => setTimeout(r, 1500))
       }
-      toast.success('Mesajul a fost trimis! Te vom contacta în curând.')
+      toast.success('Mesajul a fost trimis! Te vom contacta in curand.')
       setFormData({ name: '', email: '', phone: '', message: '' })
     } catch (error) {
       console.error('Failed to send message:', error)
-      toast.error('Eroare la trimiterea mesajului. Vă rugăm încercați din nou.')
+      toast.error('Eroare la trimiterea mesajului. Va rugam incercati din nou.')
     } finally {
       setSending(false)
     }
@@ -58,9 +59,11 @@ export default function ContactPage() {
   return (
     <div className="overflow-hidden">
       {/* ═══════ PAGE HERO ═══════ */}
-      <section className="relative pt-32 pb-20 dot-pattern">
-        <div className="absolute top-10 right-0 w-[500px] h-[500px] bg-beauty-rose/10 rounded-full blur-[120px] -z-10" />
-        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-beauty-gold/8 rounded-full blur-[100px] -z-10" />
+      <section className="relative pt-32 pb-20">
+        <div className="absolute inset-0 bg-hero-gradient -z-20" />
+        <div className="absolute inset-0 dot-pattern opacity-50 -z-10" />
+        <div className="absolute top-10 right-0 w-[500px] h-[500px] bg-beauty-fuchsia/8 rounded-full blur-[120px] -z-10" />
+        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-beauty-rosegold/10 rounded-full blur-[100px] -z-10" />
 
         <div className="container-beauty text-center">
           <motion.div
@@ -73,10 +76,10 @@ export default function ContactPage() {
               Contact
             </span>
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-display font-bold mb-6">
-              Hai Să <span className="gradient-text">Vorbim</span>
+              Hai Sa <span className="gradient-text">Vorbim</span>
             </h1>
             <p className="section-subheading mb-8">
-              Ai întrebări? Suntem aici să te ajutăm. Scrie-ne un mesaj sau sună-ne direct.
+              Ai intrebari? Suntem aici sa te ajutam. Scrie-ne un mesaj sau suna-ne direct.
             </p>
             <div className="divider-rose" />
           </motion.div>
@@ -90,22 +93,22 @@ export default function ContactPage() {
             {/* ─── Left: Contact Form ─── */}
             <div className="lg:col-span-3">
               <Reveal>
-                <div className="card">
+                <div className="card border-beauty-blush/30">
                   <div className="flex items-center gap-3 mb-8">
-                    <div className="w-10 h-10 rounded-xl bg-beauty-rose/10 flex items-center justify-center">
+                    <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-beauty-rose/15 to-beauty-fuchsia/15 flex items-center justify-center">
                       <Send className="w-5 h-5 text-beauty-rose" />
                     </div>
                     <div>
                       <h2 className="text-2xl font-display font-bold">Trimite un Mesaj</h2>
-                      <p className="text-sm text-gray-400">Răspundem în maxim 24 de ore</p>
+                      <p className="text-sm text-beauty-warm">Raspundem in maxim 24 de ore</p>
                     </div>
                   </div>
 
                   <form onSubmit={handleSubmit} className="space-y-5">
                     <div className="grid sm:grid-cols-2 gap-5">
                       <div>
-                        <label className="block text-sm font-medium text-gray-600 mb-2">
-                          Numele tău
+                        <label className="block text-sm font-medium text-beauty-charcoal mb-2">
+                          Numele tau
                         </label>
                         <input
                           type="text"
@@ -117,7 +120,7 @@ export default function ContactPage() {
                         />
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-gray-600 mb-2">
+                        <label className="block text-sm font-medium text-beauty-charcoal mb-2">
                           Telefon
                         </label>
                         <input
@@ -131,7 +134,7 @@ export default function ContactPage() {
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-gray-600 mb-2">
+                      <label className="block text-sm font-medium text-beauty-charcoal mb-2">
                         Email
                       </label>
                       <input
@@ -145,7 +148,7 @@ export default function ContactPage() {
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-gray-600 mb-2">
+                      <label className="block text-sm font-medium text-beauty-charcoal mb-2">
                         Mesaj
                       </label>
                       <textarea
@@ -184,40 +187,36 @@ export default function ContactPage() {
                 {
                   icon: MapPin,
                   title: 'Adresa Salonului',
-                  lines: ['București, România', 'Sector 1'],
-                  color: 'beauty-rose',
+                  lines: ['Bucuresti, Romania', 'Sector 1'],
                 },
                 {
                   icon: Phone,
                   title: 'Telefon',
                   lines: ['+40 XXX XXX XXX'],
                   href: 'tel:+40XXXXXXXXX',
-                  color: 'beauty-gold',
                 },
                 {
                   icon: Mail,
                   title: 'Email',
                   lines: ['contact@beautyspotanne.ro'],
                   href: 'mailto:contact@beautyspotanne.ro',
-                  color: 'beauty-sage',
                 },
                 {
                   icon: Clock,
                   title: 'Program',
-                  lines: ['Luni - Vineri: 10:00 - 20:00', 'Sâmbătă: 10:00 - 16:00', 'Duminică: Închis'],
-                  color: 'beauty-rose',
+                  lines: ['Luni - Vineri: 10:00 - 20:00', 'Sambata: 10:00 - 16:00', 'Duminica: Inchis'],
                 },
               ].map((item, idx) => (
                 <Reveal key={idx} delay={idx * 0.1}>
-                  <div className="card group">
+                  <div className="card group border-beauty-blush/20">
                     <div className="flex items-start gap-4">
-                      <div className={`w-12 h-12 rounded-2xl bg-${item.color}/10 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300`}>
-                        <item.icon className={`w-5 h-5 text-${item.color}`} />
+                      <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-beauty-rose/10 to-beauty-fuchsia/10 flex items-center justify-center flex-shrink-0 group-hover:from-beauty-rose/20 group-hover:to-beauty-fuchsia/20 transition-all duration-300">
+                        <item.icon className="w-5 h-5 text-beauty-rose" />
                       </div>
                       <div>
                         <h3 className="font-display font-bold mb-1.5">{item.title}</h3>
                         {item.lines.map((line, i) => (
-                          <p key={i} className="text-sm text-gray-500">
+                          <p key={i} className="text-sm text-beauty-warm">
                             {item.href && i === 0 ? (
                               <a href={item.href} className="hover:text-beauty-rose transition-colors">
                                 {line}
@@ -235,14 +234,14 @@ export default function ContactPage() {
 
               {/* Social Links */}
               <Reveal delay={0.4}>
-                <div className="card bg-gradient-to-br from-beauty-rose/5 to-beauty-gold/5">
-                  <h3 className="font-display font-bold mb-4">Urmărește-ne</h3>
+                <div className="card bg-gradient-to-br from-beauty-rose-light/40 to-beauty-blush-soft/40 border-beauty-blush/20">
+                  <h3 className="font-display font-bold mb-4">Urmareste-ne</h3>
                   <div className="flex gap-3">
                     <a
                       href="https://instagram.com/beautyspotanne"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-2 px-5 py-3 rounded-2xl bg-white hover:bg-beauty-rose/5 border border-beauty-cream-dark/50 transition-all duration-300 hover:-translate-y-0.5"
+                      className="flex items-center gap-2 px-5 py-3 rounded-2xl bg-white hover:bg-beauty-rose/5 border border-beauty-blush/30 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-beauty"
                     >
                       <Instagram className="w-5 h-5 text-beauty-rose" />
                       <span className="text-sm font-medium">Instagram</span>
@@ -251,7 +250,7 @@ export default function ContactPage() {
                       href="https://facebook.com/beautyspotanne"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-2 px-5 py-3 rounded-2xl bg-white hover:bg-beauty-rose/5 border border-beauty-cream-dark/50 transition-all duration-300 hover:-translate-y-0.5"
+                      className="flex items-center gap-2 px-5 py-3 rounded-2xl bg-white hover:bg-beauty-rose/5 border border-beauty-blush/30 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-beauty"
                     >
                       <Facebook className="w-5 h-5 text-beauty-rose" />
                       <span className="text-sm font-medium">Facebook</span>
@@ -264,20 +263,21 @@ export default function ContactPage() {
         </div>
       </section>
 
-      {/* ═══════ MAP PLACEHOLDER ═══════ */}
-      <section className="section-padding bg-beauty-cream-dark/20">
+      {/* ═══════ MAP ═══════ */}
+      <section className="section-padding relative">
+        <div className="absolute inset-0 luxe-pattern -z-10" />
         <div className="container-beauty">
           <Reveal className="text-center mb-12">
             <span className="badge mb-4 inline-flex">
               <MapPin className="w-3.5 h-3.5 mr-1.5" />
-              Locație
+              Locatie
             </span>
-            <h2 className="section-heading">Unde Ne Găsești</h2>
+            <h2 className="section-heading">Unde Ne Gasesti</h2>
             <div className="divider-rose mt-4" />
           </Reveal>
-          
+
           <Reveal>
-            <div className="rounded-3xl overflow-hidden shadow-beauty-lg h-[400px]">
+            <div className="rounded-3xl overflow-hidden shadow-beauty-lg h-[400px] border border-beauty-blush/30">
               <iframe
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d91158.11209923761!2d26.02596073281249!3d44.43779850000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40b1f93abf3cad4f%3A0xac0632e37c9ca628!2sBucharest%2C%20Romania!5e0!3m2!1sen!2sus!4v1700000000000!5m2!1sen!2sus"
                 width="100%"
@@ -286,7 +286,7 @@ export default function ContactPage() {
                 allowFullScreen=""
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
-                title="BeautySpot Anne — Locație București"
+                title="BeautySpot Anne - Locatie Bucuresti"
               />
             </div>
           </Reveal>
@@ -294,23 +294,33 @@ export default function ContactPage() {
       </section>
 
       {/* ═══════ CTA ═══════ */}
-      <section className="py-20">
+      <section className="py-20 bg-white">
         <div className="container-beauty">
           <Reveal>
-            <div className="card-glass text-center py-12 px-8 bg-gradient-to-br from-beauty-rose/5 to-beauty-gold/5">
-              <Calendar className="w-8 h-8 text-beauty-gold mx-auto mb-4" />
-              <h3 className="text-2xl md:text-3xl font-display font-bold mb-3">
-                Pregătită pentru o transformare?
-              </h3>
-              <p className="text-gray-500 mb-6 max-w-lg mx-auto">
-                Nu mai aștepta — programează-ți vizita online acum și 
-                descoperă cele mai frumoase extensii de gene.
-              </p>
-              <Link href="/booking" className="btn-primary inline-flex items-center gap-2">
-                <Calendar className="w-4 h-4" />
-                Programează-te Acum
-                <ArrowRight className="w-4 h-4" />
-              </Link>
+            <div className="relative rounded-3xl overflow-hidden">
+              <Image
+                src="https://images.unsplash.com/photo-1560066984-138dadb4c035?w=1200&h=400&fit=crop"
+                alt="Beauty salon"
+                fill
+                className="object-cover"
+                sizes="100vw"
+              />
+              <div className="absolute inset-0 bg-gradient-to-r from-beauty-rose/90 via-beauty-fuchsia/85 to-beauty-rosegold/90" />
+              <div className="relative text-center py-16 px-8">
+                <Calendar className="w-8 h-8 text-white/80 mx-auto mb-4" />
+                <h3 className="text-2xl md:text-3xl font-display font-bold mb-3 text-white">
+                  Pregatita pentru o transformare?
+                </h3>
+                <p className="text-white/80 mb-6 max-w-lg mx-auto">
+                  Nu mai astepta - programeaza-ti vizita online acum si
+                  descopera cele mai frumoase extensii de gene.
+                </p>
+                <Link href="/booking" className="bg-white text-beauty-rose hover:bg-beauty-cream font-semibold py-3.5 px-8 rounded-full transition-all duration-300 shadow-xl hover:shadow-2xl hover:-translate-y-1 inline-flex items-center gap-2">
+                  <Calendar className="w-4 h-4" />
+                  Programeaza-te Acum
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
+              </div>
             </div>
           </Reveal>
         </div>

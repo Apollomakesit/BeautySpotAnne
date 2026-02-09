@@ -4,12 +4,13 @@ import { useSearchParams } from 'next/navigation'
 import axios from 'axios'
 import Calendar from 'react-calendar'
 import 'react-calendar/dist/Calendar.css'
+import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
 import toast from 'react-hot-toast'
 import {
   Sparkles, Check, ChevronRight, ChevronLeft, Clock,
   User, Phone, Mail, FileText, Calendar as CalendarIcon,
-  CreditCard, ArrowRight, Star, Shield, Loader2
+  CreditCard, ArrowRight, Star, Shield, Loader2, Crown, Heart
 } from 'lucide-react'
 import clsx from 'clsx'
 
@@ -40,12 +41,12 @@ export default function BookingContent() {
 
   // Fallback services if API is unavailable
   const FALLBACK_SERVICES = [
-    { id: 1, name: 'Extensii Gene Classic', description: 'Aspect natural și elegant cu gene 1:1.', duration_minutes: 120, price: 250, deposit_amount: 100 },
-    { id: 2, name: 'Volume 2D‑3D', description: 'Volum controlat cu bucheți de 2‑3 gene.', duration_minutes: 150, price: 300, deposit_amount: 100 },
-    { id: 3, name: 'Mega Volume 4D‑6D', description: 'Volum maxim și plin.', duration_minutes: 180, price: 350, deposit_amount: 150 },
-    { id: 4, name: 'Lash Lift & Tint', description: 'Gene naturale curbate și colorate.', duration_minutes: 60, price: 180, deposit_amount: 80 },
-    { id: 5, name: 'Întreținere 2 Săptămâni', description: 'Completare și reglare la 2 săptămâni.', duration_minutes: 90, price: 150, deposit_amount: 50 },
-    { id: 6, name: 'Îndepărtare Gene', description: 'Îndepărtare profesională și sigură.', duration_minutes: 45, price: 80, deposit_amount: 40 },
+    { id: 1, name: 'Extensii Gene Classic', description: 'Aspect natural si elegant cu gene 1:1.', duration_minutes: 120, price: 250, deposit_amount: 100 },
+    { id: 2, name: 'Volume 2D-3D', description: 'Volum controlat cu bucheti de 2-3 gene.', duration_minutes: 150, price: 300, deposit_amount: 100 },
+    { id: 3, name: 'Mega Volume 4D-6D', description: 'Volum maxim si plin.', duration_minutes: 180, price: 350, deposit_amount: 150 },
+    { id: 4, name: 'Lash Lift & Tint', description: 'Gene naturale curbate si colorate.', duration_minutes: 60, price: 180, deposit_amount: 80 },
+    { id: 5, name: 'Intretinere 2 Saptamani', description: 'Completare si reglare la 2 saptamani.', duration_minutes: 90, price: 150, deposit_amount: 50 },
+    { id: 6, name: 'Indepartare Gene', description: 'Indepartare profesionala si sigura.', duration_minutes: 45, price: 80, deposit_amount: 40 },
   ]
 
   useEffect(() => {
@@ -77,7 +78,7 @@ export default function BookingContent() {
       .catch((err) => {
         console.error('Failed to load services:', err)
         setServices(FALLBACK_SERVICES)
-        toast.error('Nu s-au putut încărca serviciile de la server. Se afișează lista implicită.')
+        toast.error('Nu s-au putut incarca serviciile de la server. Se afiseaza lista implicita.')
       })
       .finally(() => setServicesLoading(false))
   }, [searchParams])
@@ -107,11 +108,11 @@ export default function BookingContent() {
       })
 
       if (response.data.checkout_url) {
-        toast.success('Redirecționare către plată...')
+        toast.success('Redirectionare catre plata...')
         window.location.href = response.data.checkout_url
       }
     } catch (error) {
-      toast.error('Eroare la creare programare. Vă rugăm încercați din nou.')
+      toast.error('Eroare la creare programare. Va rugam incercati din nou.')
       setLoading(false)
     }
   }
@@ -132,8 +133,10 @@ export default function BookingContent() {
   return (
     <div className="min-h-screen overflow-hidden">
       {/* ═══════ PAGE HERO ═══════ */}
-      <section className="relative pt-32 pb-12 dot-pattern">
-        <div className="absolute top-10 right-0 w-[500px] h-[500px] bg-beauty-rose/10 rounded-full blur-[120px] -z-10" />
+      <section className="relative pt-32 pb-12">
+        <div className="absolute inset-0 bg-hero-gradient -z-20" />
+        <div className="absolute inset-0 dot-pattern opacity-50 -z-10" />
+        <div className="absolute top-10 right-0 w-[500px] h-[500px] bg-beauty-fuchsia/8 rounded-full blur-[120px] -z-10" />
         <div className="container-beauty text-center">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
             <span className="badge mb-4 inline-flex">
@@ -141,10 +144,10 @@ export default function BookingContent() {
               Programare Online
             </span>
             <h1 className="text-4xl sm:text-5xl font-display font-bold mb-4">
-              Programează-ți <span className="gradient-text">Vizita</span>
+              Programeaza-ti <span className="gradient-text">Vizita</span>
             </h1>
             <p className="section-subheading">
-              Alege serviciul, data și ora — simplu, rapid. Plătești doar avansul online.
+              Alege serviciul, data si ora - simplu, rapid. Platesti doar avansul online.
             </p>
           </motion.div>
         </div>
@@ -157,7 +160,7 @@ export default function BookingContent() {
             {/* ─── LEFT: Wizard ─── */}
             <div className="lg:col-span-2">
               {/* Progress Steps */}
-              <div className="card mb-8">
+              <div className="card mb-8 border-beauty-blush/30">
                 <div className="flex items-center justify-between">
                   {STEPS.map((step, idx) => (
                     <div key={step.id} className="flex items-center flex-1 last:flex-initial">
@@ -175,9 +178,9 @@ export default function BookingContent() {
                         <div
                           className={clsx(
                             'w-9 h-9 rounded-full flex items-center justify-center transition-all duration-500 text-sm font-semibold',
-                            currentStep === step.id && 'bg-beauty-rose text-white shadow-beauty',
+                            currentStep === step.id && 'bg-gradient-to-br from-beauty-rose to-beauty-fuchsia text-white shadow-beauty',
                             step.id < currentStep && 'bg-beauty-sage text-white',
-                            step.id > currentStep && 'bg-beauty-cream-dark text-gray-400'
+                            step.id > currentStep && 'bg-beauty-blush-soft text-beauty-mauve'
                           )}
                         >
                           {step.id < currentStep ? (
@@ -189,7 +192,7 @@ export default function BookingContent() {
                         <span
                           className={clsx(
                             'text-sm font-medium hidden sm:block',
-                            currentStep === step.id ? 'text-beauty-charcoal' : 'text-gray-400'
+                            currentStep === step.id ? 'text-beauty-charcoal' : 'text-beauty-mauve'
                           )}
                         >
                           {step.label}
@@ -197,9 +200,9 @@ export default function BookingContent() {
                       </button>
                       {idx < STEPS.length - 1 && (
                         <div className="flex-1 mx-2">
-                          <div className="h-0.5 rounded-full bg-beauty-cream-dark">
+                          <div className="h-0.5 rounded-full bg-beauty-blush-soft">
                             <div
-                              className="h-full bg-beauty-rose rounded-full transition-all duration-500"
+                              className="h-full bg-gradient-to-r from-beauty-rose to-beauty-fuchsia rounded-full transition-all duration-500"
                               style={{ width: step.id < currentStep ? '100%' : '0%' }}
                             />
                           </div>
@@ -221,9 +224,9 @@ export default function BookingContent() {
                 >
                   {/* ── STEP 1: Service Selection ── */}
                   {currentStep === 1 && (
-                    <div className="card">
+                    <div className="card border-beauty-blush/30">
                       <h2 className="text-2xl font-display font-bold mb-2">Alege Serviciul</h2>
-                      <p className="text-gray-500 text-sm mb-6">Selectează tratamentul dorit din lista de mai jos.</p>
+                      <p className="text-beauty-warm text-sm mb-6">Selecteaza tratamentul dorit din lista de mai jos.</p>
 
                       {servicesLoading ? (
                         <div className="grid sm:grid-cols-2 gap-4">
@@ -233,8 +236,8 @@ export default function BookingContent() {
                         </div>
                       ) : services.length === 0 ? (
                         <div className="text-center py-12">
-                          <Sparkles className="w-12 h-12 text-gray-300 mx-auto mb-3" />
-                          <p className="text-gray-500">Nu sunt servicii disponibile momentan.</p>
+                          <Sparkles className="w-12 h-12 text-beauty-blush mx-auto mb-3" />
+                          <p className="text-beauty-warm">Nu sunt servicii disponibile momentan.</p>
                         </div>
                       ) : (
                       <div className="grid sm:grid-cols-2 gap-4">
@@ -246,7 +249,7 @@ export default function BookingContent() {
                               'text-left p-5 rounded-2xl border-2 transition-all duration-300 group',
                               selectedService?.id === service.id
                                 ? 'border-beauty-rose bg-beauty-rose/5 shadow-beauty'
-                                : 'border-beauty-cream-dark hover:border-beauty-rose/40 hover:bg-beauty-rose/[0.02]'
+                                : 'border-beauty-blush-soft hover:border-beauty-rose/40 hover:bg-beauty-rose/[0.02]'
                             )}
                           >
                             <div className="flex items-start justify-between mb-3">
@@ -257,8 +260,8 @@ export default function BookingContent() {
                                 className={clsx(
                                   'w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all',
                                   selectedService?.id === service.id
-                                    ? 'border-beauty-rose bg-beauty-rose'
-                                    : 'border-gray-300'
+                                    ? 'border-beauty-rose bg-gradient-to-br from-beauty-rose to-beauty-fuchsia'
+                                    : 'border-beauty-mauve/40'
                                 )}
                               >
                                 {selectedService?.id === service.id && (
@@ -266,9 +269,12 @@ export default function BookingContent() {
                                 )}
                               </div>
                             </div>
-                            <div className="flex items-center gap-4 text-sm text-gray-500">
+                            {service.description && (
+                              <p className="text-beauty-warm text-xs mb-3 line-clamp-2">{service.description}</p>
+                            )}
+                            <div className="flex items-center gap-4 text-sm text-beauty-warm">
                               <span className="flex items-center gap-1">
-                                <Clock className="w-3.5 h-3.5" /> {service.duration_minutes} min
+                                <Clock className="w-3.5 h-3.5 text-beauty-rose" /> {service.duration_minutes} min
                               </span>
                               <span className="font-display font-bold text-beauty-rose text-base">
                                 {service.price} RON
@@ -283,10 +289,10 @@ export default function BookingContent() {
 
                   {/* ── STEP 2: Date Selection ── */}
                   {currentStep === 2 && (
-                    <div className="card">
+                    <div className="card border-beauty-blush/30">
                       <h2 className="text-2xl font-display font-bold mb-2">Alege Data</h2>
-                      <p className="text-gray-500 text-sm mb-6">
-                        Selectează o zi din calendar. Zilele disponibile sunt afișate activ.
+                      <p className="text-beauty-warm text-sm mb-6">
+                        Selecteaza o zi din calendar. Zilele disponibile sunt afisate activ.
                       </p>
 
                       <div className="flex justify-center">
@@ -305,8 +311,8 @@ export default function BookingContent() {
                       </div>
 
                       {selectedDate && (
-                        <div className="mt-6 p-4 bg-beauty-rose/5 rounded-2xl text-center">
-                          <p className="text-sm text-gray-500">Data selectată:</p>
+                        <div className="mt-6 p-4 bg-beauty-rose/5 rounded-2xl text-center border border-beauty-blush/30">
+                          <p className="text-sm text-beauty-warm">Data selectata:</p>
                           <p className="font-display font-bold text-lg text-beauty-charcoal">
                             {selectedDate.toLocaleDateString('ro-RO', {
                               weekday: 'long',
@@ -322,14 +328,14 @@ export default function BookingContent() {
 
                   {/* ── STEP 3: Time Selection ── */}
                   {currentStep === 3 && (
-                    <div className="card">
+                    <div className="card border-beauty-blush/30">
                       <h2 className="text-2xl font-display font-bold mb-2">Alege Ora</h2>
-                      <p className="text-gray-500 text-sm mb-6">Selectează un interval orar disponibil.</p>
+                      <p className="text-beauty-warm text-sm mb-6">Selecteaza un interval orar disponibil.</p>
 
                       {slotsLoading ? (
                         <div className="flex items-center justify-center py-12">
                           <Loader2 className="w-6 h-6 text-beauty-rose animate-spin" />
-                          <span className="ml-3 text-gray-500">Se încarcă intervalele...</span>
+                          <span className="ml-3 text-beauty-warm">Se incarca intervalele...</span>
                         </div>
                       ) : availableSlots.length > 0 ? (
                         <div className="grid grid-cols-3 sm:grid-cols-4 gap-3">
@@ -340,8 +346,8 @@ export default function BookingContent() {
                               className={clsx(
                                 'py-3.5 px-4 rounded-2xl text-sm font-semibold border-2 transition-all duration-300',
                                 selectedSlot === slot
-                                  ? 'bg-beauty-rose text-white border-beauty-rose shadow-beauty'
-                                  : 'border-beauty-cream-dark text-beauty-charcoal hover:border-beauty-rose/40 hover:bg-beauty-rose/[0.02]'
+                                  ? 'bg-gradient-to-r from-beauty-rose to-beauty-fuchsia text-white border-beauty-rose shadow-beauty'
+                                  : 'border-beauty-blush-soft text-beauty-charcoal hover:border-beauty-rose/40 hover:bg-beauty-rose/[0.02]'
                               )}
                             >
                               {slot}
@@ -350,10 +356,10 @@ export default function BookingContent() {
                         </div>
                       ) : (
                         <div className="text-center py-12">
-                          <CalendarIcon className="w-12 h-12 text-gray-300 mx-auto mb-3" />
-                          <p className="text-gray-500">Nu sunt intervale disponibile pentru această zi.</p>
+                          <CalendarIcon className="w-12 h-12 text-beauty-blush mx-auto mb-3" />
+                          <p className="text-beauty-warm">Nu sunt intervale disponibile pentru aceasta zi.</p>
                           <button onClick={prevStep} className="btn-secondary mt-4 text-sm">
-                            Alege altă dată
+                            Alege alta data
                           </button>
                         </div>
                       )}
@@ -362,17 +368,17 @@ export default function BookingContent() {
 
                   {/* ── STEP 4: Contact Details ── */}
                   {currentStep === 4 && (
-                    <div className="card">
+                    <div className="card border-beauty-blush/30">
                       <h2 className="text-2xl font-display font-bold mb-2">Datele Tale</h2>
-                      <p className="text-gray-500 text-sm mb-6">
-                        Completează informațiile de contact pentru confirmarea programării.
+                      <p className="text-beauty-warm text-sm mb-6">
+                        Completeaza informatiile de contact pentru confirmarea programarii.
                       </p>
 
                       <form onSubmit={handleSubmit} className="space-y-5">
                         <div>
-                          <label className="block text-sm font-medium text-gray-600 mb-2">Nume complet</label>
+                          <label className="block text-sm font-medium text-beauty-charcoal mb-2">Nume complet</label>
                           <div className="relative">
-                            <User className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                            <User className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-beauty-mauve" />
                             <input
                               type="text"
                               placeholder="ex. Maria Popescu"
@@ -385,9 +391,9 @@ export default function BookingContent() {
                         </div>
 
                         <div>
-                          <label className="block text-sm font-medium text-gray-600 mb-2">Telefon</label>
+                          <label className="block text-sm font-medium text-beauty-charcoal mb-2">Telefon</label>
                           <div className="relative">
-                            <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                            <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-beauty-mauve" />
                             <input
                               type="tel"
                               placeholder="ex. 0721 234 567"
@@ -400,9 +406,9 @@ export default function BookingContent() {
                         </div>
 
                         <div>
-                          <label className="block text-sm font-medium text-gray-600 mb-2">Email</label>
+                          <label className="block text-sm font-medium text-beauty-charcoal mb-2">Email</label>
                           <div className="relative">
-                            <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                            <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-beauty-mauve" />
                             <input
                               type="email"
                               placeholder="ex. maria@email.com"
@@ -415,13 +421,13 @@ export default function BookingContent() {
                         </div>
 
                         <div>
-                          <label className="block text-sm font-medium text-gray-600 mb-2">
-                            Mențiuni speciale <span className="text-gray-400">(opțional)</span>
+                          <label className="block text-sm font-medium text-beauty-charcoal mb-2">
+                            Mentiuni speciale <span className="text-beauty-mauve">(optional)</span>
                           </label>
                           <div className="relative">
-                            <FileText className="absolute left-4 top-4 w-4 h-4 text-gray-400" />
+                            <FileText className="absolute left-4 top-4 w-4 h-4 text-beauty-mauve" />
                             <textarea
-                              placeholder="Alergii, preferințe sau alte detalii..."
+                              placeholder="Alergii, preferinte sau alte detalii..."
                               value={formData.notes}
                               onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
                               className="textarea-beauty !pl-11"
@@ -432,11 +438,11 @@ export default function BookingContent() {
 
                         {/* Trust Badges */}
                         <div className="flex flex-wrap gap-4 pt-2">
-                          <div className="flex items-center gap-1.5 text-xs text-gray-400">
-                            <Shield className="w-3.5 h-3.5 text-beauty-sage" /> Plată securizată
+                          <div className="flex items-center gap-1.5 text-xs text-beauty-warm">
+                            <Shield className="w-3.5 h-3.5 text-beauty-sage" /> Plata securizata
                           </div>
-                          <div className="flex items-center gap-1.5 text-xs text-gray-400">
-                            <Star className="w-3.5 h-3.5 text-beauty-gold" /> Confirmare instantanee
+                          <div className="flex items-center gap-1.5 text-xs text-beauty-warm">
+                            <Star className="w-3.5 h-3.5 text-beauty-rose" /> Confirmare instantanee
                           </div>
                         </div>
 
@@ -448,12 +454,12 @@ export default function BookingContent() {
                           {loading ? (
                             <>
                               <Loader2 className="w-5 h-5 animate-spin" />
-                              Se procesează...
+                              Se proceseaza...
                             </>
                           ) : (
                             <>
                               <CreditCard className="w-5 h-5" />
-                              Plătește Avans ({selectedService?.deposit_amount} RON)
+                              Plateste Avans ({selectedService?.deposit_amount} RON)
                             </>
                           )}
                         </button>
@@ -472,19 +478,19 @@ export default function BookingContent() {
                     className={clsx(
                       'flex items-center gap-2 py-3 px-6 rounded-full font-medium transition-all duration-300',
                       currentStep === 1
-                        ? 'text-gray-300 cursor-not-allowed'
-                        : 'text-gray-600 hover:text-beauty-charcoal hover:bg-beauty-cream-dark/50'
+                        ? 'text-beauty-blush-soft cursor-not-allowed'
+                        : 'text-beauty-warm hover:text-beauty-charcoal hover:bg-beauty-cream-dark/50'
                     )}
                   >
                     <ChevronLeft className="w-4 h-4" />
-                    Înapoi
+                    Inapoi
                   </button>
                   <button
                     onClick={nextStep}
                     disabled={!canProceed()}
                     className="btn-primary flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    Continuă
+                    Continua
                     <ChevronRight className="w-4 h-4" />
                   </button>
                 </div>
@@ -494,15 +500,15 @@ export default function BookingContent() {
             {/* ─── RIGHT: Summary Sidebar ─── */}
             <div className="lg:col-span-1">
               <div className="sticky top-28">
-                <div className="card-glass">
+                <div className="card-glass border border-beauty-blush/30">
                   {/* Header */}
-                  <div className="flex items-center gap-3 mb-6 pb-4 border-b border-beauty-cream-dark/50">
-                    <div className="w-10 h-10 rounded-xl bg-beauty-rose/10 flex items-center justify-center">
+                  <div className="flex items-center gap-3 mb-6 pb-4 border-b border-beauty-blush/30">
+                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-beauty-rose/15 to-beauty-fuchsia/15 flex items-center justify-center">
                       <Sparkles className="w-5 h-5 text-beauty-rose" />
                     </div>
                     <div>
                       <h3 className="font-display font-bold text-lg">Sumar</h3>
-                      <p className="text-xs text-gray-400">Detalii programare</p>
+                      <p className="text-xs text-beauty-warm">Detalii programare</p>
                     </div>
                   </div>
 
@@ -514,7 +520,7 @@ export default function BookingContent() {
                           <Sparkles className="w-4 h-4 text-beauty-rose" />
                         </div>
                         <div>
-                          <p className="text-xs text-gray-400">Serviciu</p>
+                          <p className="text-xs text-beauty-warm">Serviciu</p>
                           <p className="font-semibold text-sm">{selectedService.name}</p>
                         </div>
                       </div>
@@ -525,7 +531,7 @@ export default function BookingContent() {
                           <Clock className="w-4 h-4 text-beauty-gold" />
                         </div>
                         <div>
-                          <p className="text-xs text-gray-400">Durată</p>
+                          <p className="text-xs text-beauty-warm">Durata</p>
                           <p className="font-semibold text-sm">{selectedService.duration_minutes} minute</p>
                         </div>
                       </div>
@@ -537,7 +543,7 @@ export default function BookingContent() {
                             <CalendarIcon className="w-4 h-4 text-beauty-sage" />
                           </div>
                           <div>
-                            <p className="text-xs text-gray-400">Data</p>
+                            <p className="text-xs text-beauty-warm">Data</p>
                             <p className="font-semibold text-sm">
                               {selectedDate.toLocaleDateString('ro-RO', {
                                 weekday: 'short',
@@ -556,26 +562,26 @@ export default function BookingContent() {
                             <Clock className="w-4 h-4 text-beauty-rose-dark" />
                           </div>
                           <div>
-                            <p className="text-xs text-gray-400">Ora</p>
+                            <p className="text-xs text-beauty-warm">Ora</p>
                             <p className="font-semibold text-sm">{selectedSlot}</p>
                           </div>
                         </div>
                       )}
 
                       {/* Price Breakdown */}
-                      <div className="pt-4 mt-4 border-t border-beauty-cream-dark/50 space-y-2.5">
+                      <div className="pt-4 mt-4 border-t border-beauty-blush/30 space-y-2.5">
                         <div className="flex justify-between text-sm">
-                          <span className="text-gray-500">Preț total</span>
+                          <span className="text-beauty-warm">Pret total</span>
                           <span className="font-semibold">{selectedService.price} RON</span>
                         </div>
                         <div className="flex justify-between text-sm">
-                          <span className="text-gray-500">Avans online</span>
-                          <span className="font-display font-bold text-beauty-gold text-base">
+                          <span className="text-beauty-warm">Avans online</span>
+                          <span className="font-display font-bold text-beauty-rose text-base">
                             {selectedService.deposit_amount} RON
                           </span>
                         </div>
                         <div className="flex justify-between text-sm">
-                          <span className="text-gray-500">Rest la salon</span>
+                          <span className="text-beauty-warm">Rest la salon</span>
                           <span className="font-semibold text-beauty-charcoal">
                             {selectedService.price - selectedService.deposit_amount} RON
                           </span>
@@ -584,31 +590,31 @@ export default function BookingContent() {
                     </div>
                   ) : (
                     <div className="text-center py-8">
-                      <Sparkles className="w-10 h-10 text-beauty-cream-dark mx-auto mb-3" />
-                      <p className="text-gray-400 text-sm">
-                        Alege un serviciu pentru a începe
+                      <Sparkles className="w-10 h-10 text-beauty-blush mx-auto mb-3" />
+                      <p className="text-beauty-warm text-sm">
+                        Alege un serviciu pentru a incepe
                       </p>
                     </div>
                   )}
                 </div>
 
                 {/* Trust section */}
-                <div className="mt-6 p-4 rounded-2xl bg-beauty-cream-dark/30">
+                <div className="mt-6 p-5 rounded-2xl bg-gradient-to-br from-beauty-rose-light/40 to-beauty-blush-soft/40 border border-beauty-blush/20">
                   <div className="flex items-center gap-3 mb-3">
                     <Shield className="w-5 h-5 text-beauty-sage" />
-                    <span className="font-semibold text-sm">Garantia Noastră</span>
+                    <span className="font-semibold text-sm">Garantia Noastra</span>
                   </div>
-                  <ul className="space-y-2 text-xs text-gray-500">
+                  <ul className="space-y-2 text-xs text-beauty-warm">
                     <li className="flex items-center gap-2">
-                      <Check className="w-3.5 h-3.5 text-beauty-sage" />
-                      Anulare gratuită cu 24h înainte
+                      <Check className="w-3.5 h-3.5 text-beauty-sage flex-shrink-0" />
+                      Anulare gratuita cu 24h inainte
                     </li>
                     <li className="flex items-center gap-2">
-                      <Check className="w-3.5 h-3.5 text-beauty-sage" />
-                      Plată securizată prin Stripe
+                      <Check className="w-3.5 h-3.5 text-beauty-sage flex-shrink-0" />
+                      Plata securizata prin Stripe
                     </li>
                     <li className="flex items-center gap-2">
-                      <Check className="w-3.5 h-3.5 text-beauty-sage" />
+                      <Check className="w-3.5 h-3.5 text-beauty-sage flex-shrink-0" />
                       Confirmare instantanee pe email
                     </li>
                   </ul>

@@ -8,7 +8,14 @@ import os
 
 router = APIRouter()
 
-ADMIN_EMAIL = os.getenv("ADMIN_EMAIL", "")
+# Parse multiple admin emails from comma-separated env variable
+ADMIN_EMAILS_STR = os.getenv("ADMIN_EMAIL", "")
+ADMIN_EMAILS = [email.strip().lower() for email in ADMIN_EMAILS_STR.split(",") if email.strip()]
+
+
+def is_admin_email(email: str) -> bool:
+    """Check if the given email is an admin email."""
+    return email.lower() in ADMIN_EMAILS
 
 
 def hash_password(password: str) -> str:
@@ -28,7 +35,7 @@ def upsert_user(user: schemas.UserUpsert, db: Session = Depends(get_db)):
         db_user.name = user.name
         db_user.avatar_url = user.avatar_url
     else:
-        is_admin = user.email.lower() == ADMIN_EMAIL.lower() if ADMIN_EMAIL else False
+        is_admin = is_admin_email(user.email)
         db_user = models.User(
             **user.dict(),
             is_admin=is_admin,
@@ -49,7 +56,7 @@ def register_user(user: schemas.UserRegister, db: Session = Depends(get_db)):
     if existing:
         raise HTTPException(status_code=400, detail="Un cont cu acest email există deja")
     
-    is_admin = user.email.lower() == ADMIN_EMAIL.lower() if ADMIN_EMAIL else False
+    is_admin = is_admin_email(user.email)
     
     db_user = models.User(
         email=user.email,

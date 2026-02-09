@@ -118,6 +118,7 @@ Follow these guides in order:
 1. **[RAILWAY_DEPLOYMENT.md](RAILWAY_DEPLOYMENT.md)** - Complete deployment guide with architecture details
 2. **[RAILWAY_CHECKLIST.md](RAILWAY_CHECKLIST.md)** - Step-by-step checklist for deployment
 3. **[ENV_VARIABLES_REFERENCE.md](ENV_VARIABLES_REFERENCE.md)** - Environment variables quick reference
+4. **[CODEBASE_SUMMARY.md](CODEBASE_SUMMARY.md)** - Prompt-ready overview of backend, frontend, and deployment structure
 
 ## Environment Variables
 

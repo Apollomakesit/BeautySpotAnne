@@ -67,7 +67,7 @@ Defined in **`app/models.py`**:
   - Lists all bookings for admin UI.
 - **`routers/availability.py`**
   - CRUD for weekly availability.
-  - `/slots/{service_id}/{date}` generates 30‑minute slots based on service duration, availability, and existing bookings.
+  - `/slots/{service_id}/{date}` generates 30-minute slots based on service duration, availability, and existing bookings.
   - Returns no slots if the date exists in `TimeOff`.
 - **`routers/users.py`**
   - OAuth upsert, email registration/login, fetch user by id or email.

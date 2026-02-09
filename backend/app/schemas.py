@@ -66,3 +66,66 @@ class UserUpsert(BaseModel):
     avatar_url: Optional[str] = None
     provider: str
     provider_id: str
+
+class UserRegister(BaseModel):
+    email: EmailStr
+    password: str
+    first_name: str
+    last_name: str
+    phone: Optional[str] = None
+
+class UserLogin(BaseModel):
+    email: EmailStr
+    password: str
+
+class UserResponse(BaseModel):
+    id: int
+    email: str
+    name: str
+    phone: Optional[str] = None
+    is_admin: bool = False
+
+    class Config:
+        from_attributes = True
+
+class ContactMessageCreate(BaseModel):
+    name: str
+    email: EmailStr
+    phone: Optional[str] = None
+    message: str
+
+class ContactMessageResponse(BaseModel):
+    id: int
+    name: str
+    email: str
+    phone: Optional[str] = None
+    message: str
+    read: bool
+    created_at: datetime
+
+    class Config:
+        from_attributes = True
+
+class ReviewCreate(BaseModel):
+    client_name: str
+    rating: int  # 1-5
+    text: Optional[str] = None
+
+class ReviewResponse(BaseModel):
+    id: int
+    client_name: str
+    rating: int
+    text: Optional[str] = None
+    approved: bool
+    created_at: datetime
+
+    class Config:
+        from_attributes = True
+
+class ServiceUpdate(BaseModel):
+    name: Optional[str] = None
+    description: Optional[str] = None
+    duration_minutes: Optional[int] = None
+    price: Optional[float] = None
+    deposit_amount: Optional[float] = None
+    image_url: Optional[str] = None

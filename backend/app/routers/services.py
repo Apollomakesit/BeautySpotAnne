@@ -19,13 +19,15 @@ def create_service(service: schemas.ServiceCreate, db: Session = Depends(get_db)
     return db_service
 
 @router.patch("/{service_id}", response_model=schemas.ServiceResponse)
-def update_service(service_id: int, service: schemas.ServiceCreate, db: Session = Depends(get_db)):
+def update_service(service_id: int, service: schemas.ServiceUpdate, db: Session = Depends(get_db)):
     db_service = db.query(models.Service).filter(models.Service.id == service_id).first()
     if not db_service:
         raise HTTPException(status_code=404, detail="Service not found")
     
-    for key, value in service.dict().items():
-        setattr(db_service, key, value)
+    update_data = service.dict(exclude_unset=True)
+    for key, value in update_data.items():
+        if value is not None:
+            setattr(db_service, key, value)
     
     db.commit()
     db.refresh(db_service)

@@ -2,6 +2,7 @@
 import { useState, useRef } from 'react'
 import { motion, useInView } from 'framer-motion'
 import toast from 'react-hot-toast'
+import axios from 'axios'
 import Link from 'next/link'
 import {
   MapPin, Phone, Mail, Clock, Send, Instagram, Facebook,
@@ -36,11 +37,22 @@ export default function ContactPage() {
   const handleSubmit = async (e) => {
     e.preventDefault()
     setSending(true)
-    // Simulate sending
-    await new Promise((r) => setTimeout(r, 1500))
-    toast.success('Mesajul a fost trimis! Te vom contacta în curând.')
-    setFormData({ name: '', email: '', phone: '', message: '' })
-    setSending(false)
+    try {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL
+      if (apiUrl) {
+        await axios.post(`${apiUrl}/api/contact/`, formData)
+      } else {
+        // Fallback: simulate if API not available
+        await new Promise((r) => setTimeout(r, 1500))
+      }
+      toast.success('Mesajul a fost trimis! Te vom contacta în curând.')
+      setFormData({ name: '', email: '', phone: '', message: '' })
+    } catch (error) {
+      console.error('Failed to send message:', error)
+      toast.error('Eroare la trimiterea mesajului. Vă rugăm încercați din nou.')
+    } finally {
+      setSending(false)
+    }
   }
 
   return (
@@ -265,13 +277,17 @@ export default function ContactPage() {
           </Reveal>
           
           <Reveal>
-            <div className="rounded-3xl overflow-hidden shadow-beauty-lg bg-beauty-cream-dark h-[400px] flex items-center justify-center">
-              <div className="text-center">
-                <MapPin className="w-12 h-12 text-beauty-rose/40 mx-auto mb-3" />
-                <p className="text-gray-500">
-                  Hartă interactivă — București, România
-                </p>
-              </div>
+            <div className="rounded-3xl overflow-hidden shadow-beauty-lg h-[400px]">
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d91158.11209923761!2d26.02596073281249!3d44.43779850000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40b1f93abf3cad4f%3A0xac0632e37c9ca628!2sBucharest%2C%20Romania!5e0!3m2!1sen!2sus!4v1700000000000!5m2!1sen!2sus"
+                width="100%"
+                height="100%"
+                style={{ border: 0 }}
+                allowFullScreen=""
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                title="BeautySpot Anne — Locație București"
+              />
             </div>
           </Reveal>
         </div>

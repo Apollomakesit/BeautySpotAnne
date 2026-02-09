@@ -94,7 +94,20 @@ export default function ServiciiPage() {
                     <div className="card-interactive group h-full flex flex-col">
                       {/* Visual header */}
                       <div className={`h-48 rounded-2xl bg-gradient-to-br ${gradient} mb-6 flex items-center justify-center relative overflow-hidden`}>
-                        <Icon className="w-14 h-14 text-beauty-rose/30 group-hover:scale-110 transition-transform duration-500" />
+                        {service.image_url ? (
+                          <img
+                            src={service.image_url}
+                            alt={service.name}
+                            className="w-full h-full object-cover"
+                            onError={(e) => {
+                              e.target.style.display = 'none'
+                              e.target.nextSibling.style.display = 'flex'
+                            }}
+                          />
+                        ) : null}
+                        <div className={`${service.image_url ? 'hidden' : 'flex'} w-full h-full items-center justify-center absolute inset-0`}>
+                          <Icon className="w-14 h-14 text-beauty-rose/30 group-hover:scale-110 transition-transform duration-500" />
+                        </div>
                         <div className="absolute inset-0 bg-gold-shimmer animate-shimmer opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{ backgroundSize: '200% 100%' }} />
                       </div>
 

@@ -9,10 +9,14 @@ class User(Base):
     id = Column(Integer, primary_key=True, index=True)
     email = Column(String(255), unique=True, index=True, nullable=False)
     name = Column(String(100))
+    first_name = Column(String(50))
+    last_name = Column(String(50))
+    password_hash = Column(String(255))
     avatar_url = Column(Text)
     provider = Column(String(20))  # google, facebook, email
     provider_id = Column(String(255))
     phone = Column(String(20))
+    is_admin = Column(Boolean, default=False)
     created_at = Column(DateTime, default=datetime.utcnow)
     last_login = Column(DateTime)
     
@@ -71,3 +75,27 @@ class Booking(Base):
     
     service = relationship("Service", back_populates="bookings")
     user = relationship("User", back_populates="bookings")
+
+class ContactMessage(Base):
+    __tablename__ = "contact_messages"
+    
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String(100), nullable=False)
+    email = Column(String(255), nullable=False)
+    phone = Column(String(20))
+    message = Column(Text, nullable=False)
+    read = Column(Boolean, default=False)
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+class Review(Base):
+    __tablename__ = "reviews"
+    
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=True)
+    client_name = Column(String(100), nullable=False)
+    rating = Column(Integer, nullable=False)  # 1-5
+    text = Column(Text)
+    approved = Column(Boolean, default=False)
+    created_at = Column(DateTime, default=datetime.utcnow)
+    
+    user = relationship("User")

@@ -36,19 +36,50 @@ export default function BookingContent() {
   })
   const [loading, setLoading] = useState(false)
   const [slotsLoading, setSlotsLoading] = useState(false)
+  const [servicesLoading, setServicesLoading] = useState(true)
+
+  // Fallback services if API is unavailable
+  const FALLBACK_SERVICES = [
+    { id: 1, name: 'Extensii Gene Classic', description: 'Aspect natural și elegant cu gene 1:1.', duration_minutes: 120, price: 250, deposit_amount: 100 },
+    { id: 2, name: 'Volume 2D‑3D', description: 'Volum controlat cu bucheți de 2‑3 gene.', duration_minutes: 150, price: 300, deposit_amount: 100 },
+    { id: 3, name: 'Mega Volume 4D‑6D', description: 'Volum maxim și plin.', duration_minutes: 180, price: 350, deposit_amount: 150 },
+    { id: 4, name: 'Lash Lift & Tint', description: 'Gene naturale curbate și colorate.', duration_minutes: 60, price: 180, deposit_amount: 80 },
+    { id: 5, name: 'Întreținere 2 Săptămâni', description: 'Completare și reglare la 2 săptămâni.', duration_minutes: 90, price: 150, deposit_amount: 50 },
+    { id: 6, name: 'Îndepărtare Gene', description: 'Îndepărtare profesională și sigură.', duration_minutes: 45, price: 80, deposit_amount: 40 },
+  ]
 
   useEffect(() => {
-    axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/services`).then((res) => {
-      setServices(res.data)
-      const preselectedId = searchParams.get('service')
-      if (preselectedId) {
-        const service = res.data.find((s) => s.id === parseInt(preselectedId))
-        if (service) {
-          setSelectedService(service)
-          setCurrentStep(2)
+    setServicesLoading(true)
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL
+    if (!apiUrl) {
+      console.warn('NEXT_PUBLIC_API_URL not set, using fallback services')
+      setServices(FALLBACK_SERVICES)
+      setServicesLoading(false)
+      return
+    }
+    axios.get(`${apiUrl}/api/services`)
+      .then((res) => {
+        const data = res.data
+        if (data && data.length > 0) {
+          setServices(data)
+          const preselectedId = searchParams.get('service')
+          if (preselectedId) {
+            const service = data.find((s) => s.id === parseInt(preselectedId))
+            if (service) {
+              setSelectedService(service)
+              setCurrentStep(2)
+            }
+          }
+        } else {
+          setServices(FALLBACK_SERVICES)
         }
-      }
-    })
+      })
+      .catch((err) => {
+        console.error('Failed to load services:', err)
+        setServices(FALLBACK_SERVICES)
+        toast.error('Nu s-au putut încărca serviciile de la server. Se afișează lista implicită.')
+      })
+      .finally(() => setServicesLoading(false))
   }, [searchParams])
 
   useEffect(() => {
@@ -194,6 +225,18 @@ export default function BookingContent() {
                       <h2 className="text-2xl font-display font-bold mb-2">Alege Serviciul</h2>
                       <p className="text-gray-500 text-sm mb-6">Selectează tratamentul dorit din lista de mai jos.</p>
 
+                      {servicesLoading ? (
+                        <div className="grid sm:grid-cols-2 gap-4">
+                          {[1, 2, 3, 4].map((i) => (
+                            <div key={i} className="rounded-2xl bg-beauty-cream animate-pulse h-32" />
+                          ))}
+                        </div>
+                      ) : services.length === 0 ? (
+                        <div className="text-center py-12">
+                          <Sparkles className="w-12 h-12 text-gray-300 mx-auto mb-3" />
+                          <p className="text-gray-500">Nu sunt servicii disponibile momentan.</p>
+                        </div>
+                      ) : (
                       <div className="grid sm:grid-cols-2 gap-4">
                         {services.map((service) => (
                           <button
@@ -234,6 +277,7 @@ export default function BookingContent() {
                           </button>
                         ))}
                       </div>
+                      )}
                     </div>
                   )}
 

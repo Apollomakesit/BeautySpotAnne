@@ -1,9 +1,9 @@
 'use client'
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { useSession, signIn, signOut } from 'next-auth/react'
+import { useSession, signOut } from 'next-auth/react'
 import Image from 'next/image'
-import { Menu, X, Sparkles, User, LogOut, ChevronDown } from 'lucide-react'
+import { Menu, X, Sparkles, User, LogOut, ChevronDown, Settings } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 
 export default function Header() {
@@ -26,6 +26,7 @@ export default function Header() {
   const navLinks = [
     { href: '/', label: 'Acasă' },
     { href: '/servicii', label: 'Servicii' },
+    { href: '/recenzii', label: 'Recenzii' },
     { href: '/booking', label: 'Programare' },
     { href: '/contact', label: 'Contact' },
   ]
@@ -109,6 +110,16 @@ export default function Header() {
                         <p className="text-sm font-semibold text-beauty-charcoal">{session.user.name}</p>
                         <p className="text-xs text-gray-400 truncate">{session.user.email}</p>
                       </div>
+                      {session.user.isAdmin && (
+                        <Link
+                          href="/admin/dashboard"
+                          onClick={() => setUserMenuOpen(false)}
+                          className="w-full flex items-center gap-2.5 px-3 py-2.5 text-sm text-gray-600 hover:text-beauty-rose hover:bg-beauty-rose/5 rounded-xl transition-all duration-200"
+                        >
+                          <Settings className="w-4 h-4" />
+                          Panou Admin
+                        </Link>
+                      )}
                       <button
                         onClick={() => { signOut(); setUserMenuOpen(false) }}
                         className="w-full flex items-center gap-2.5 px-3 py-2.5 text-sm text-gray-600 hover:text-red-500 hover:bg-red-50 rounded-xl transition-all duration-200"
@@ -121,13 +132,13 @@ export default function Header() {
                 </AnimatePresence>
               </div>
             ) : (
-              <button
-                onClick={() => signIn()}
+              <Link
+                href="/login"
                 className="btn-primary !py-2.5 !px-6 text-sm flex items-center gap-2"
               >
                 <User className="w-4 h-4" />
                 Autentificare
-              </button>
+              </Link>
             )}
 
             <Link href="/booking" className="btn-gold !py-2.5 !px-6 text-sm">
@@ -226,12 +237,13 @@ export default function Header() {
                       </div>
                     </div>
                   ) : (
-                    <button
-                      onClick={() => signIn()}
-                      className="btn-secondary w-full text-center"
+                    <Link
+                      href="/login"
+                      onClick={() => setMobileOpen(false)}
+                      className="btn-secondary w-full text-center block"
                     >
                       Autentificare
-                    </button>
+                    </Link>
                   )}
                   <Link
                     href="/booking"

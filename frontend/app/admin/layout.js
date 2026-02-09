@@ -6,7 +6,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import {
   LayoutDashboard, Sparkles, Calendar, ClipboardList,
-  Menu, X, ChevronRight, LogOut, Settings
+  Menu, X, ChevronRight, LogOut, Settings, MessageSquare, Star, Image
 } from 'lucide-react'
 import { signOut } from 'next-auth/react'
 import clsx from 'clsx'
@@ -16,6 +16,8 @@ const NAV_ITEMS = [
   { href: '/admin/servicii', label: 'Servicii', icon: Sparkles },
   { href: '/admin/disponibilitate', label: 'Disponibilitate', icon: Calendar },
   { href: '/admin/programari', label: 'Programări', icon: ClipboardList },
+  { href: '/admin/mesaje', label: 'Mesaje', icon: MessageSquare },
+  { href: '/admin/recenzii', label: 'Recenzii', icon: Star },
 ]
 
 export default function AdminLayout({ children }) {
@@ -34,7 +36,28 @@ export default function AdminLayout({ children }) {
     )
   }
 
-  if (!session) redirect('/api/auth/signin')
+  if (!session) redirect('/login?callbackUrl=/admin/dashboard')
+
+  // Check if user is admin
+  if (!session.user?.isAdmin) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-beauty-cream">
+        <div className="text-center max-w-md">
+          <div className="w-16 h-16 rounded-full bg-red-50 flex items-center justify-center mx-auto mb-4">
+            <X className="w-8 h-8 text-red-400" />
+          </div>
+          <h2 className="text-2xl font-display font-bold mb-2">Acces Restricționat</h2>
+          <p className="text-gray-500 text-sm mb-6">
+            Nu ai permisiuni de administrator. Doar proprietara salonului poate accesa panoul de administrare.
+          </p>
+          <Link href="/" className="btn-primary inline-flex items-center gap-2">
+            Înapoi la Site
+            <ChevronRight className="w-4 h-4" />
+          </Link>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="min-h-screen bg-beauty-cream flex">

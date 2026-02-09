@@ -1,6 +1,7 @@
 'use client'
 import Link from 'next/link'
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import axios from 'axios'
 import { motion, useInView } from 'framer-motion'
 import { 
   Sparkles, Star, Clock, ArrowRight, Shield, Award, Heart, 
@@ -26,6 +27,27 @@ function Reveal({ children, delay = 0, className = '' }) {
 
 /* ─────────────────────────────────── */
 export default function Home() {
+  const [reviews, setReviews] = useState([])
+
+  const FALLBACK_REVIEWS = [
+    { id: 1, client_name: 'Maria D.', text: 'Cele mai frumoase extensii pe care le-am avut vreodată! Anne este incredibil de talentată și atentă la detalii.', rating: 5 },
+    { id: 2, client_name: 'Alexandra P.', text: 'Atmosfera este superbă, totul este igienic și profesional. Merg de peste un an și sunt mereu încântată!', rating: 5 },
+    { id: 3, client_name: 'Ioana M.', text: 'Lash lift-ul a fost exact ce-mi doream! Un look natural dar WOW. Super recomand!', rating: 5 },
+  ]
+
+  useEffect(() => {
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL
+    if (!apiUrl) return
+    axios.get(`${apiUrl}/api/reviews/`)
+      .then((res) => {
+        if (res.data && res.data.length > 0) {
+          setReviews(res.data.slice(0, 3))
+        }
+      })
+      .catch(() => {})
+  }, [])
+
+  const displayReviews = reviews.length > 0 ? reviews : FALLBACK_REVIEWS
   return (
     <div className="overflow-hidden">
       {/* ═══════ HERO ═══════ */}
@@ -304,24 +326,8 @@ export default function Home() {
           </Reveal>
 
           <div className="grid md:grid-cols-3 gap-8">
-            {[
-              {
-                name: 'Maria D.',
-                text: 'Cele mai frumoase extensii pe care le-am avut vreodată! Anne este incredibil de talentată și atentă la detalii.',
-                rating: 5,
-              },
-              {
-                name: 'Alexandra P.',
-                text: 'Atmosfera este superbă, totul este igienic și profesional. Merg de peste un an și sunt mereu încântată!',
-                rating: 5,
-              },
-              {
-                name: 'Ioana M.',
-                text: 'Lash lift-ul a fost exact ce-mi doream! Un look natural dar WOW. Super recomand!',
-                rating: 5,
-              },
-            ].map((review, idx) => (
-              <Reveal key={idx} delay={idx * 0.15}>
+            {displayReviews.map((review, idx) => (
+              <Reveal key={review.id || idx} delay={idx * 0.15}>
                 <div className="card h-full flex flex-col">
                   {/* Stars */}
                   <div className="flex gap-1 mb-4">
@@ -337,11 +343,11 @@ export default function Home() {
                   <div className="flex items-center gap-3 pt-4 border-t border-beauty-cream-dark/50">
                     <div className="w-10 h-10 rounded-full bg-gradient-to-br from-beauty-rose/20 to-beauty-gold/20 flex items-center justify-center">
                       <span className="text-sm font-bold text-beauty-rose">
-                        {review.name.charAt(0)}
+                        {review.client_name.charAt(0)}
                       </span>
                     </div>
                     <div>
-                      <p className="font-semibold text-sm">{review.name}</p>
+                      <p className="font-semibold text-sm">{review.client_name}</p>
                       <p className="text-xs text-gray-400">Clientă verificată</p>
                     </div>
                   </div>
@@ -349,6 +355,13 @@ export default function Home() {
               </Reveal>
             ))}
           </div>
+
+          <Reveal className="text-center mt-10">
+            <Link href="/recenzii" className="btn-secondary inline-flex items-center gap-2">
+              Vezi Toate Recenziile
+              <ChevronRight className="w-4 h-4" />
+            </Link>
+          </Reveal>
         </div>
       </section>
 

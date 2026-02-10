@@ -103,7 +103,10 @@ def build_whatsapp_confirmation_url(booking, service, client_phone: str):
 @router.post("/", response_model=dict)
 def create_booking(booking: BookingCreateRequest, db: Session = Depends(get_db)):
     # Get service
-    service = db.query(models.Service).filter(models.Service.id == booking.service_id).first()
+    service = db.query(models.Service).filter(
+        models.Service.id == booking.service_id,
+        models.Service.active == True
+    ).first()
     if not service:
         raise HTTPException(status_code=404, detail="Service not found")
 

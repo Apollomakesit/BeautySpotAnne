@@ -43,7 +43,7 @@ export default function Footer() {
                 <span className="block text-[10px] font-medium text-beauty-rosegold tracking-[0.2em] uppercase -mt-1">by Anne</span>
               </div>
             </Link>
-            <p className="text-gray-400 text-sm leading-relaxed mb-6">Extensii gene profesionale si servicii sprancene. De la Classic 1D la Mega Volume - frumusetea naturala amplificata cu maiestrie.</p>
+            <p className="text-gray-400 text-sm leading-relaxed mb-6">Extensii gene profesionale si servicii sprancene. De la 1D pana la Mega volume - frumusetea naturala amplificata cu maiestrie.</p>
             <div className="flex gap-3">
               <a href="https://www.instagram.com/beautyspotanne/" target="_blank" rel="noopener noreferrer"
                 className="w-10 h-10 rounded-2xl bg-white/5 hover:bg-gradient-to-br hover:from-beauty-rose/30 hover:to-beauty-fuchsia/30 flex items-center justify-center transition-all duration-300 hover:-translate-y-1 group border border-white/10 hover:border-beauty-rose/30">
@@ -78,7 +78,22 @@ export default function Footer() {
               <span className="w-6 h-0.5 bg-gradient-to-r from-beauty-fuchsia to-beauty-rosegold rounded-full" />Servicii
             </h4>
             <ul className="space-y-3">
-              {['Classic 1D - 130 lei', 'Volume 2D-4D', 'Russian Volume - 250 lei', 'Mega Volume - 280 lei', 'Whispy Volume - 270 lei', 'Foxy Eyeliner - 250 lei', 'Stilizat Sprancene - 60 lei'].map((service) => (
+              {[
+                '1D - 130 lei',
+                '1&2D - 140 lei',
+                '2D - 150 lei',
+                '2&3D - 160 lei',
+                '3D - 170 lei',
+                '3&4D - 180 lei',
+                '4D - 200 lei',
+                'Whispy volume - 270 lei',
+                'Russian volume - 250 lei',
+                'Mega volume - 280 lei',
+                'Combi NC - 230 lei',
+                'Foxy eyeliner - 250 lei',
+                'Pensat - 30 lei',
+                'Stilizat sprancene - 60 lei',
+              ].map((service) => (
                 <li key={service}>
                   <Link href="/servicii" className="text-gray-400 hover:text-beauty-rose text-sm transition-colors duration-300 flex items-center gap-2 group">
                     <span className="w-0 group-hover:w-3 h-px bg-beauty-rose transition-all duration-300" />{service}

@@ -3,7 +3,8 @@ Database initialization script
 Runs migrations automatically on application startup
 """
 from sqlalchemy import text
-from .database import engine, Base
+from .database import engine, Base, SessionLocal
+from .service_catalog import sync_service_catalog
 
 def init_db():
     """Initialize database and run migrations"""
@@ -25,6 +26,17 @@ def init_db():
             print("✅ Database migration successful")
     except Exception as e:
         print(f"⚠️  Migration error (may already exist): {e}")
+
+    # Keep services table aligned with the fixed catalog
+    db = SessionLocal()
+    try:
+        synced = sync_service_catalog(db)
+        print(f"✅ Service catalog synced ({len(synced)} active services)")
+    except Exception as e:
+        db.rollback()
+        print(f"⚠️  Service catalog sync error: {e}")
+    finally:
+        db.close()
 
 if __name__ == "__main__":
     init_db()

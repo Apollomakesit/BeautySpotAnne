@@ -12,6 +12,7 @@ import {
   CreditCard, ArrowRight, Star, Shield, Loader2, MessageCircle
 } from 'lucide-react'
 import clsx from 'clsx'
+import { FALLBACK_BOOKING_SERVICES } from '@/data/serviceCatalog'
 
 const STEPS = [
   { id: 1, label: 'Serviciu', icon: Sparkles },
@@ -20,23 +21,7 @@ const STEPS = [
   { id: 4, label: 'Detalii', icon: User },
 ]
 
-/* Real services - 50% deposit */
-const FALLBACK_SERVICES = [
-  { id: 1, name: '1D Classic', description: 'Extensii gene clasice, aspect natural.', duration_minutes: 90, price: 130, deposit_amount: 65 },
-  { id: 2, name: '1&2D Mix', description: 'Mix classic si volum usor.', duration_minutes: 100, price: 140, deposit_amount: 70 },
-  { id: 3, name: '2D Volume', description: 'Volum usor cu buchete de 2 gene.', duration_minutes: 100, price: 150, deposit_amount: 75 },
-  { id: 4, name: '2&3D Mix', description: 'Mix de volum mediu.', duration_minutes: 110, price: 160, deposit_amount: 80 },
-  { id: 5, name: '3D Volume', description: 'Volum mediu cu buchete de 3 gene.', duration_minutes: 120, price: 170, deposit_amount: 85 },
-  { id: 6, name: '3&4D Mix', description: 'Volum mediu-mare, efect dramatic.', duration_minutes: 120, price: 180, deposit_amount: 90 },
-  { id: 7, name: '4D Volume', description: 'Volum mare cu buchete de 4 gene.', duration_minutes: 130, price: 200, deposit_amount: 100 },
-  { id: 8, name: 'Whispy Volume', description: 'Gene wispy, textura moderna.', duration_minutes: 150, price: 270, deposit_amount: 135 },
-  { id: 9, name: 'Russian Volume', description: 'Tehnica ruseasca, gene pufoase.', duration_minutes: 140, price: 250, deposit_amount: 125 },
-  { id: 10, name: 'Mega Volume', description: 'Volum maxim si dramatic.', duration_minutes: 150, price: 280, deposit_amount: 140 },
-  { id: 11, name: 'Combi NC', description: 'Natural + Classic combinatie.', duration_minutes: 130, price: 230, deposit_amount: 115 },
-  { id: 12, name: 'Foxy Eyeliner', description: 'Efect eyeliner prin extensii.', duration_minutes: 140, price: 250, deposit_amount: 125 },
-  { id: 13, name: 'Pensat', description: 'Pensare profesionala sprancene.', duration_minutes: 15, price: 30, deposit_amount: 15 },
-  { id: 14, name: 'Stilizat Sprancene', description: 'Modelare si stilizare sprancene.', duration_minutes: 30, price: 60, deposit_amount: 30 },
-]
+const FALLBACK_SERVICES = FALLBACK_BOOKING_SERVICES
 
 export default function BookingContent() {
   const searchParams = useSearchParams()

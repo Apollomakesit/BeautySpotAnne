@@ -6,9 +6,10 @@ import axios from 'axios'
 import { motion, useInView } from 'framer-motion'
 import {
   Sparkles, Star, Clock, ArrowRight, Shield, Award, Heart,
-  ChevronRight, Instagram, Phone, Calendar, Eye, Crown,
+  ChevronRight, Instagram, Phone, Calendar, Crown,
   Gem, Flower2, CheckCircle2, MessageCircle
 } from 'lucide-react'
+import { getServiceMeta } from '@/data/serviceCatalog'
 
 /* ───── Scroll-reveal wrapper ───── */
 function Reveal({ children, delay = 0, className = '' }) {
@@ -27,21 +28,32 @@ function Reveal({ children, delay = 0, className = '' }) {
   )
 }
 
-/* ─── Professional Photos matching lash extension services ─── */
+const getServicePhoto = (name, fallback) => getServiceMeta(name)?.image_url || fallback
+
+/* ─── Professional Photos matching the fixed services ─── */
 const PHOTOS = {
-  hero: 'https://images.unsplash.com/photo-1562322140-8baeececf3df?w=800&h=1000&fit=crop&crop=center',
-  classicLash: 'https://images.unsplash.com/photo-1583001931096-959e9a1a6223?w=600&h=400&fit=crop&crop=eyes',
-  volumeLash: 'https://images.unsplash.com/photo-1519415510236-718bdfcd89c8?w=600&h=400&fit=crop&crop=face',
-  megaVolume: 'https://images.unsplash.com/photo-1512310604669-443f26c35f52?w=600&h=400&fit=crop&crop=face',
+  hero: getServicePhoto('3D', 'https://images.unsplash.com/photo-1562322140-8baeececf3df?auto=format&fit=crop&w=1200&h=1500&q=80'),
+  lash1D: getServicePhoto('1D', 'https://images.unsplash.com/photo-1583001931096-959e9a1a6223?auto=format&fit=crop&w=1200&h=800&q=80'),
+  lash2D: getServicePhoto('2D', 'https://images.unsplash.com/photo-1512310604669-443f26c35f52?auto=format&fit=crop&w=1200&h=800&q=80'),
+  lash3D: getServicePhoto('3D', 'https://images.unsplash.com/photo-1562322140-8baeececf3df?auto=format&fit=crop&w=1200&h=800&q=80'),
+  lash4D: getServicePhoto('4D', 'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=1200&h=800&q=80'),
+  whispy: getServicePhoto('Whispy volume', 'https://images.unsplash.com/photo-1588514912908-8e32e4b43b1c?auto=format&fit=crop&w=1200&h=800&q=80'),
+  russian: getServicePhoto('Russian volume', 'https://images.unsplash.com/photo-1516975080664-ed2fc6a32937?auto=format&fit=crop&w=1200&h=800&q=80'),
+  mega: getServicePhoto('Mega volume', 'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=1200&h=800&q=80'),
+  combi: getServicePhoto('Combi NC', 'https://images.unsplash.com/photo-1596704017254-9b121068fb31?auto=format&fit=crop&w=1200&h=800&q=80'),
+  foxy: getServicePhoto('Foxy eyeliner', 'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=1200&h=800&q=80'),
+  pensat: getServicePhoto('Pensat', 'https://images.unsplash.com/photo-1540555700478-4be289fbec6d?auto=format&fit=crop&w=1200&h=800&q=80'),
   gallery: [
-    'https://images.unsplash.com/photo-1583001931096-959e9a1a6223?w=400&h=400&fit=crop',
-    'https://images.unsplash.com/photo-1519415510236-718bdfcd89c8?w=400&h=400&fit=crop',
-    'https://images.unsplash.com/photo-1512310604669-443f26c35f52?w=400&h=400&fit=crop',
-    'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=400&h=400&fit=crop',
-    'https://images.unsplash.com/photo-1562322140-8baeececf3df?w=400&h=400&fit=crop',
-    'https://images.unsplash.com/photo-1526045478516-99145907023c?w=400&h=400&fit=crop',
-    'https://images.unsplash.com/photo-1516975080664-ed2fc6a32937?w=400&h=400&fit=crop',
-    'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=400&h=400&fit=crop',
+    getServicePhoto('1D', 'https://images.unsplash.com/photo-1583001931096-959e9a1a6223?auto=format&fit=crop&w=800&h=800&q=80'),
+    getServicePhoto('2D', 'https://images.unsplash.com/photo-1512310604669-443f26c35f52?auto=format&fit=crop&w=800&h=800&q=80'),
+    getServicePhoto('3D', 'https://images.unsplash.com/photo-1562322140-8baeececf3df?auto=format&fit=crop&w=800&h=800&q=80'),
+    getServicePhoto('4D', 'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=800&h=800&q=80'),
+    getServicePhoto('Whispy volume', 'https://images.unsplash.com/photo-1588514912908-8e32e4b43b1c?auto=format&fit=crop&w=800&h=800&q=80'),
+    getServicePhoto('Russian volume', 'https://images.unsplash.com/photo-1516975080664-ed2fc6a32937?auto=format&fit=crop&w=800&h=800&q=80'),
+    getServicePhoto('Mega volume', 'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=800&h=800&q=80'),
+    getServicePhoto('Combi NC', 'https://images.unsplash.com/photo-1596704017254-9b121068fb31?auto=format&fit=crop&w=800&h=800&q=80'),
+    getServicePhoto('Foxy eyeliner', 'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=800&h=800&q=80'),
+    getServicePhoto('Pensat', 'https://images.unsplash.com/photo-1540555700478-4be289fbec6d?auto=format&fit=crop&w=800&h=800&q=80'),
   ],
 }
 
@@ -110,8 +122,8 @@ export default function Home() {
               </h1>
 
               <p className="text-lg text-beauty-warm leading-relaxed max-w-lg mb-10">
-                Extensii de gene profesionale de la Classic 1D pana la Mega Volume,
-                Russian Volume si Whispy Volume. Descopera frumusetea amplificata 
+                Extensii de gene profesionale de la 1D pana la 4D,
+                plus Whispy volume, Russian volume si Mega volume. Descopera frumusetea amplificata
                 cu pasiune si maiestrie.
               </p>
 
@@ -186,25 +198,28 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ═══════ SERVICES SHOWCASE (Top 6 popular) ═══════ */}
+      {/* ═══════ SERVICES SHOWCASE ═══════ */}
       <section className="section-padding bg-white relative">
         <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-beauty-blush to-transparent" />
         <div className="container-beauty">
           <Reveal className="text-center mb-16">
             <span className="badge-gold mb-4 inline-flex"><Sparkles className="w-3.5 h-3.5 mr-1.5" />Servicii Populare</span>
             <h2 className="section-heading">Extensii Gene & Sprancene</h2>
-            <p className="section-subheading">De la Classic 1D pana la Mega Volume - alege stilul potrivit pentru tine</p>
+            <p className="section-subheading">Catalogul actualizat cu cele 14 servicii fixe, exact ca in meniu</p>
             <div className="divider-rose mt-6" />
           </Reveal>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[
-              { name: 'Classic 1D', desc: 'Extensii gene clasice, aspect natural si elegant. O gena aplicata pe fiecare gena naturala.', price: '130', duration: '1.5h', photo: PHOTOS.classicLash },
-              { name: 'Russian Volume', desc: 'Tehnica ruseasca de volum - gene pufoase si pline, efect spectaculos si confortabil.', price: '250', duration: '2.5h', photo: PHOTOS.volumeLash },
-              { name: 'Mega Volume', desc: 'Volum maxim si dramatic. Gene ultra-pline, perfecte pentru un look WOW de impact.', price: '280', duration: '2.5h', photo: PHOTOS.megaVolume },
-              { name: 'Whispy Volume', desc: 'Gene cu efect wispy, textura naturala cu varfuri mai lungi - look modern si rafinat.', price: '270', duration: '2.5h', photo: 'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=600&h=400&fit=crop&crop=face' },
-              { name: 'Foxy Eyeliner', desc: 'Efect de eyeliner realizat prin extensii gene - privire felina, seducatoare si eleganta.', price: '250', duration: '2h', photo: 'https://images.unsplash.com/photo-1526045478516-99145907023c?w=600&h=400&fit=crop&crop=face' },
-              { name: 'Stilizat Sprancene', desc: 'Modelare si stilizare profesionala a sprancenelor - cadru perfect pentru privirea ta.', price: '60', duration: '30 min', photo: 'https://images.unsplash.com/photo-1540555700478-4be289fbec6d?w=600&h=400&fit=crop&crop=face' },
+              { name: '1D', desc: 'Extensii clasice 1D cu efect curat si natural, aplicate fir cu fir.', price: '130', duration: '1.5h', photo: PHOTOS.lash1D },
+              { name: '2D', desc: 'Volum 2D echilibrat, ideal pentru densitate vizibila si aspect elegant.', price: '150', duration: '1h 40m', photo: PHOTOS.lash2D },
+              { name: '3D', desc: 'Volum 3D bine definit, cu efect glam si pastrare a confortului.', price: '170', duration: '2h', photo: PHOTOS.lash3D },
+              { name: '4D', desc: 'Volum 4D intens, pentru un efect dramatic si ochi foarte expresivi.', price: '200', duration: '2h 10m', photo: PHOTOS.lash4D },
+              { name: 'Whispy volume', desc: 'Stil Whispy cu varfuri texturate si efect airy modern.', price: '270', duration: '2h 30m', photo: PHOTOS.whispy },
+              { name: 'Russian volume', desc: 'Tehnica Russian volume pentru gene pufoase, uniforme si de impact.', price: '250', duration: '2h 20m', photo: PHOTOS.russian },
+              { name: 'Mega volume', desc: 'Mega volume cu densitate maxima pentru un look statement.', price: '280', duration: '2h 30m', photo: PHOTOS.mega },
+              { name: 'Combi NC', desc: 'Tehnica Combi NC pentru definitie, directie controlata si finisaj profesional.', price: '230', duration: '2h 10m', photo: PHOTOS.combi },
+              { name: 'Foxy eyeliner', desc: 'Efect Foxy eyeliner care alungeste optic privirea si accentueaza coltul extern.', price: '250', duration: '2h 20m', photo: PHOTOS.foxy },
             ].map((service, idx) => (
               <Reveal key={idx} delay={idx * 0.15}>
                 <div className="card-interactive group h-full flex flex-col">
@@ -281,13 +296,13 @@ export default function Home() {
                 <span className="badge mb-4 inline-flex">De Ce BeautySpot Anne?</span>
                 <h2 className="section-heading mb-4">Experienta <span className="gradient-text">BeautySpot</span></h2>
                 <p className="text-beauty-warm text-lg leading-relaxed mb-10">
-                  14 tipuri de extensii gene si servicii sprancene, de la Classic 1D la Mega Volume.
+                  14 tipuri de extensii gene si servicii sprancene, de la 1D la 4D, plus volume speciale.
                   Fiecare tratament personalizat cu produse premium.
                 </p>
               </Reveal>
               <div className="space-y-6">
                 {[
-                  { icon: Award, title: 'Gama Completa', desc: 'De la 1D Classic la Mega Volume, Whispy, Russian si Foxy Eyeliner.' },
+                  { icon: Award, title: 'Gama Completa', desc: 'De la 1D la 4D, Whispy volume, Russian volume, Mega volume, Combi NC si Foxy eyeliner.' },
                   { icon: Gem, title: 'Produse Premium', desc: 'Doar materiale de top, hipoalergenice si sigure pentru tine.' },
                   { icon: Heart, title: 'Personalizare Totala', desc: 'Fiecare set adaptat formei ochilor si dorintelor tale.' },
                   { icon: Flower2, title: 'Locatie Confortabila', desc: 'Sector 2, Zona Teiul Doamnei - spatiu intim si relaxant.' },
@@ -322,7 +337,7 @@ export default function Home() {
           </Reveal>
           <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
             {[
-              { step: '01', icon: Sparkles, title: 'Alege Serviciul', desc: 'Alege din cele 14 servicii disponibile - de la 1D Classic la Mega Volume sau stilizat sprancene.' },
+              { step: '01', icon: Sparkles, title: 'Alege Serviciul', desc: 'Alege din cele 14 servicii disponibile - de la 1D la 4D, volume speciale sau servicii de sprancene.' },
               { step: '02', icon: Calendar, title: 'Selecteaza Data & Ora', desc: 'Alege ziua si ora care ti se potriveste. Platesti doar 50% avans online.' },
               { step: '03', icon: CheckCircle2, title: 'Confirmare pe WhatsApp', desc: 'Primesti confirmarea pe WhatsApp si email. Restul platesti la salon!' },
             ].map((item, idx) => (

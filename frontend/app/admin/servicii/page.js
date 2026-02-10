@@ -10,6 +10,7 @@ import {
 } from 'lucide-react'
 
 export default function AdminServiciiPage() {
+  const CATALOG_LOCKED = true
   const [services, setServices] = useState([])
   const [loading, setLoading] = useState(true)
   const [editingId, setEditingId] = useState(null)
@@ -42,6 +43,10 @@ export default function AdminServiciiPage() {
 
   const handleAdd = async (e) => {
     e.preventDefault()
+    if (CATALOG_LOCKED) {
+      toast.error('Catalogul este fix. Nu se pot adauga servicii noi.')
+      return
+    }
     setSubmitting(true)
     try {
       await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/services/`, form)
@@ -57,6 +62,10 @@ export default function AdminServiciiPage() {
   }
 
   const handleEdit = async (id) => {
+    if (CATALOG_LOCKED) {
+      toast.error('Catalogul este fix. Editarea serviciilor este dezactivata.')
+      return
+    }
     setSubmitting(true)
     try {
       await axios.patch(`${process.env.NEXT_PUBLIC_API_URL}/api/services/${id}`, editForm)
@@ -71,6 +80,10 @@ export default function AdminServiciiPage() {
   }
 
   const handleDelete = async (id) => {
+    if (CATALOG_LOCKED) {
+      toast.error('Catalogul este fix. Stergerea serviciilor este dezactivata.')
+      return
+    }
     if (!confirm('Ești sigură că vrei să ștergi acest serviciu?')) return
     try {
       await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/api/services/${id}`)
@@ -100,30 +113,32 @@ export default function AdminServiciiPage() {
         <div>
           <h1 className="text-3xl font-display font-bold text-beauty-charcoal">Servicii</h1>
           <p className="text-gray-500 text-sm mt-1">
-            Gestionează serviciile, prețurile și fotografiile
+            Catalog fix: 14 servicii active, preturi si imagini sincronizate automat
           </p>
         </div>
-        <button
-          onClick={() => setShowAddForm(!showAddForm)}
-          className={clsx(
-            'flex items-center gap-2 px-5 py-3 rounded-2xl font-medium text-sm transition-all duration-300',
-            showAddForm
-              ? 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-              : 'bg-beauty-rose text-white hover:bg-beauty-rose-dark shadow-beauty'
-          )}
-        >
-          {showAddForm ? 'Anulează' : (
-            <>
-              <Plus className="w-4 h-4" />
-              Adaugă Serviciu
-            </>
-          )}
-        </button>
+        {!CATALOG_LOCKED && (
+          <button
+            onClick={() => setShowAddForm(!showAddForm)}
+            className={clsx(
+              'flex items-center gap-2 px-5 py-3 rounded-2xl font-medium text-sm transition-all duration-300',
+              showAddForm
+                ? 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                : 'bg-beauty-rose text-white hover:bg-beauty-rose-dark shadow-beauty'
+            )}
+          >
+            {showAddForm ? 'Anulează' : (
+              <>
+                <Plus className="w-4 h-4" />
+                Adaugă Serviciu
+              </>
+            )}
+          </button>
+        )}
       </div>
 
       {/* Add Form */}
       <AnimatePresence>
-        {showAddForm && (
+        {!CATALOG_LOCKED && showAddForm && (
           <motion.div
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto', marginBottom: 32 }}
@@ -398,22 +413,24 @@ export default function AdminServiciiPage() {
                   </div>
 
                   {/* Actions */}
-                  <div className="flex items-center gap-2 flex-shrink-0">
-                    <button
-                      onClick={() => startEdit(service)}
-                      className="p-2.5 rounded-xl hover:bg-beauty-rose/5 text-gray-400 hover:text-beauty-rose transition-all"
-                      title="Editează"
-                    >
-                      <Edit3 className="w-4 h-4" />
-                    </button>
-                    <button
-                      onClick={() => handleDelete(service.id)}
-                      className="p-2.5 rounded-xl hover:bg-red-50 text-gray-400 hover:text-red-500 transition-all"
-                      title="Șterge"
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </button>
-                  </div>
+                  {!CATALOG_LOCKED && (
+                    <div className="flex items-center gap-2 flex-shrink-0">
+                      <button
+                        onClick={() => startEdit(service)}
+                        className="p-2.5 rounded-xl hover:bg-beauty-rose/5 text-gray-400 hover:text-beauty-rose transition-all"
+                        title="Editează"
+                      >
+                        <Edit3 className="w-4 h-4" />
+                      </button>
+                      <button
+                        onClick={() => handleDelete(service.id)}
+                        className="p-2.5 rounded-xl hover:bg-red-50 text-gray-400 hover:text-red-500 transition-all"
+                        title="Șterge"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </div>
+                  )}
                 </div>
               )}
             </motion.div>

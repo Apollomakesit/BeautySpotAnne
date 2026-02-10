@@ -58,7 +58,10 @@ def get_available_slots(service_id: int, date: str, db: Session = Depends(get_db
         return {"slots": []}
     
     # Get service duration
-    service = db.query(models.Service).filter(models.Service.id == service_id).first()
+    service = db.query(models.Service).filter(
+        models.Service.id == service_id,
+        models.Service.active == True
+    ).first()
     if not service:
         raise HTTPException(status_code=404, detail="Service not found")
     
